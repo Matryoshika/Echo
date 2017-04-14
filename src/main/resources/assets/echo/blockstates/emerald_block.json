@@ -7,24 +7,24 @@
     "variants": {
         "normal": [{"model": "echo:sponge_2.obj"}],
         "inventory": [{
-        "model": "echo:sponge_2.obj",
-        "transform": {
-                "firstperson": {
-                    "translation": [0, 0, 0],
-                    "rotation": [ { "y": 45}, {"x": -45}, {"z": 0} ],
-                    "scale": 0.4
-                },
-                "thirdperson": {
-                    "translation": [0.02, 0.05, -0.05],
-                    "rotation": [ { "y": 45}, {"x": -45}, {"z": 0} ],
-                    "scale": 0.4
-                },
-                "gui": {
-                    "translation": [0, 0, 0],
-                    "rotation": [ { "y": 0}, {"x": 315}, {"z": 45} ],
-                    "scale": 0.6
+            "model": "echo:sponge_2.obj",
+            "transform": {
+                    "firstperson": {
+                        "translation": [0, 0, 0],
+                        "rotation": [ { "y": 45}, {"x": -45}, {"z": 0} ],
+                        "scale": 0.4
+                    },
+                    "thirdperson": {
+                        "translation": [0.02, 0.05, -0.05],
+                        "rotation": [ { "y": 45}, {"x": -45}, {"z": 0} ],
+                        "scale": 0.4
+                    },
+                    "gui": {
+                        "translation": [0, 0, 0],
+                        "rotation": [ { "y": 0}, {"x": 315}, {"z": 45} ],
+                        "scale": 0.6
+                    }
                 }
-            }
         }]
     }
 }  
