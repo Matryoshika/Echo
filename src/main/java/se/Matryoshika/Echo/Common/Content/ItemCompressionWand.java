@@ -38,31 +38,6 @@ public class ItemCompressionWand extends Item{
 	@Override
 	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, 
 			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ){
-		//FMLLog.bigWarning(NBTUtil.func_190009_a(new NBTTagCompound(), Blocks.REDSTONE_BLOCK.getDefaultState()).toString(), new Object[0]);
-		
-		//System.out.println(NBTUtil.func_190009_a(new NBTTagCompound(), world.getBlockState(pos)).toString());
-		/*
-		Map<String,Byte> map = BlockStateJSON.getAllowedStates();
-		int i = 0;
-			for(String key : map.keySet()){
-				String raw = key.replaceAll("\\\\", "");
-				NBTTagCompound nbt = new NBTTagCompound();
-				try {
-					nbt = (NBTTagCompound) JsonToNBT.getTagFromJson(raw);
-				} catch (NBTException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				if(i >= 1){
-					world.setBlockState(pos.up(), NBTUtil.func_190008_d(nbt));
-					if(world.isRemote)
-					world.playEvent(2001, pos, Block.getStateId(NBTUtil.func_190008_d(nbt)));
-					break;
-					}
-				i++;
-				
-			}
-			*/
 			
 		MultiblockFormation form = new MultiblockFormation();
 		for(IBlockState state : BlockStateJSON.getAllowedStates()){
@@ -79,10 +54,6 @@ public class ItemCompressionWand extends Item{
 				}
 			}
 		}
-		
-		//world.spawnParticle(EnumParticleTypes.FLAME, pos.getX()+0.5, pos.getY()+1.5, pos.getZ()+0.5, 0.0D, 0.0D, 0.0D, new int[0]);
-		//System.out.println(pos);
-		
 		
         return EnumActionResult.PASS;
     }
