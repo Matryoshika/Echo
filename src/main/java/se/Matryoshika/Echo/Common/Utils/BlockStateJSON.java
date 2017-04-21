@@ -36,11 +36,11 @@ public class BlockStateJSON {
 		
 		
 		default_states.put("{Name:\"minecraft:emerald_block\"}", (byte)6);
-		default_states.put("{Properties:{facing:\"north\"},Name:\"minecraft:furnace\"}", (byte)2);
+		//default_states.put("{Properties:{facing:\"north\"},Name:\"minecraft:furnace\"}", (byte)2);
 		default_states.put("{Name:\"minecraft:diamond_block\"}", (byte)6);
 		default_states.put("{Name:\"minecraft:iron_block\"}", (byte)6);
 		default_states.put("{Name:\"minecraft:redstone_block\"}", (byte)6);
-		default_states.put("{Properties:{variant:\"terrasteel\"},Name:\"botania:storage\"}", (byte)6);
+		//default_states.put("{Properties:{variant:\"terrasteel\"},Name:\"botania:storage\"}", (byte)6);
 		
 		try {
 			if(blockStates.createNewFile())
