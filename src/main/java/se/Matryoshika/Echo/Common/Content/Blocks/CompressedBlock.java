@@ -85,7 +85,7 @@ public class CompressedBlock extends Block {
 	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos,
 			EntityPlayer player) {
 		ItemStack stack = new ItemStack(ContentRegistry.COMPRESSED_BLOCK);
-		if (world.getTileEntity(pos) instanceof TileMenger) {
+		if (world.getTileEntity(pos) != null && world.getTileEntity(pos) instanceof TileMenger) {
 			TileMenger menger = (TileMenger) world.getTileEntity(pos);
 			System.out.println(menger.getTileData());
 			if (menger.getTileData() != null)
