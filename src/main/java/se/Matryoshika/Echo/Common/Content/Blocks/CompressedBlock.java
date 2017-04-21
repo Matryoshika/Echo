@@ -27,27 +27,26 @@ import se.Matryoshika.Echo.Common.Content.ContentRegistry;
 import se.Matryoshika.Echo.Common.Content.Tile.TileMenger;
 
 public class CompressedBlock extends Block {
-	
 
-	public CompressedBlock(){
+	public CompressedBlock() {
 		super(Material.ROCK);
 		this.setRegistryName(Echo.MODID, "compressed_block");
 		this.setUnlocalizedName(getRegistryName().toString());
 		this.setCreativeTab(Echo.TAB);
 	}
-	
-	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune){
+
+	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
 		List<ItemStack> drops = new ArrayList<ItemStack>();
-		
+
 		ItemStack stack = new ItemStack(ContentRegistry.COMPRESSED_BLOCK);
-		
-		if(world.getBlockState(pos) instanceof TileMenger){
+
+		if (world.getBlockState(pos) instanceof TileMenger) {
 			TileMenger menger = (TileMenger) world.getBlockState(pos);
 			NBTTagCompound nbt = menger.getTileData();
 			stack.setTagCompound(nbt);
 			drops.add(stack);
 		}
-		
+
 		return drops;
 	}
 
@@ -55,42 +54,45 @@ public class CompressedBlock extends Block {
 		return true;
 	}
 
-	//TileEntity is added by Compression wand & the ItemBlock respectively, to supply the proper IBlockState required for rendering etc
+	// TileEntity is added by Compression wand & the ItemBlock respectively, to
+	// supply the proper IBlockState required for rendering etc
 	public TileEntity createTileEntity(World world, IBlockState state) {
 		return null;
 	}
 
 	public CompressedBlock setTexture(IBlockState state) {
-		//Echo.proxy.createModels(state.getBlock().getRegistryName().getResourcePath(), tier, new ResourceLocation("minecraft", "blocks/emerald_block"));
+		// Echo.proxy.createModels(state.getBlock().getRegistryName().getResourcePath(),
+		// tier, new ResourceLocation("minecraft", "blocks/emerald_block"));
 		return this;
 	}
-	
+
 	@Override
-	public EnumBlockRenderType getRenderType(IBlockState state){
-        return EnumBlockRenderType.INVISIBLE;
-    }
-	
+	public EnumBlockRenderType getRenderType(IBlockState state) {
+		return EnumBlockRenderType.INVISIBLE;
+	}
+
 	@Override
-	public boolean isOpaqueCube(IBlockState state){
+	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
-	
+
 	@Override
-	public boolean isFullCube(IBlockState state){
+	public boolean isFullCube(IBlockState state) {
 		return false;
 	}
-	
+
 	@Override
-	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player){
+	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos,
+			EntityPlayer player) {
 		ItemStack stack = new ItemStack(ContentRegistry.COMPRESSED_BLOCK);
-		if(world.getTileEntity(pos) instanceof TileMenger){
+		if (world.getTileEntity(pos) instanceof TileMenger) {
 			TileMenger menger = (TileMenger) world.getTileEntity(pos);
 			System.out.println(menger.getTileData());
-			if(menger.getTileData() != null)
+			if (menger.getTileData() != null)
 				stack.setTagCompound(menger.getTileData());
 		}
-		
-        return stack;
-    }
+
+		return stack;
+	}
 
 }
