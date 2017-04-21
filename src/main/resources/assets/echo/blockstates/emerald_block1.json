@@ -5,9 +5,9 @@
         "uvlock": false
     },
     "variants": {
-        "normal": [{"model": "echo:sponge_2.obj"}],
+        "normal": [{"model": "echo:emerald_block1.obj"}],
         "inventory": [{
-            "model": "echo:sponge_2.obj",
+            "model": "echo:emerald_block1.obj",
             "transform": {
                     "firstperson": {
                         "translation": [0, 0, 0],

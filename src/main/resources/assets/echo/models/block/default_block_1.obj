@@ -1,6 +1,6 @@
 # Blender v2.76 (sub 0) OBJ File: ''
 # www.blender.org
-mtllib sponge_1.mtl
+mtllib default_block_1.mtl
 o Cube.020_Cube.022
 v 0.333334 0.003334 0.999667
 v 0.333334 0.336667 0.999667

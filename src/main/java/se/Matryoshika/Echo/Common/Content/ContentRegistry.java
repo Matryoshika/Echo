@@ -19,29 +19,18 @@ import se.Matryoshika.Echo.Common.Content.Blocks.CompressedBlock;
 @EventBusSubscriber
 public class ContentRegistry {
 	
-	public static Block TERRA_1_BLOCK;
+	public static Block COMPRESSED_BLOCK;
+	public static Item COMPRESSION_WAND;
 	
-	public static List<Block>  blockList= new ArrayList<Block>();
+	public static List<Block> blockList = new ArrayList<Block>();
+	public static List<Item> itemList = new ArrayList<Item>();
 	
 	public static void prepareBlocks(){
-		System.out.println(vazkii.botania.common.block.ModBlocks.storage);
-		/*
-		if(Loader.isModLoaded("Botania")){
-			try {
-				blockList.add(TERRA_1_BLOCK = new CompressedBlock(vazkii.botania.common.block.ModBlocks.storage.getDefaultState().
-						withProperty(vazkii.botania.api.state.BotaniaStateProps.STORAGE_VARIANT, vazkii.botania.api.state.enums.StorageVariant.TERRASTEEL)));
-			} catch (IllegalArgumentException | IllegalAccessException e) {
-				e.printStackTrace();
-			}
-		}
-		*/
-		
-		try {
-			blockList.add(TERRA_1_BLOCK = new CompressedBlock(Blocks.EMERALD_BLOCK.getDefaultState(), 2));
-		} catch (IllegalArgumentException | IllegalAccessException e) {
-			e.printStackTrace();
-		}
-
+		blockList.add(COMPRESSED_BLOCK = new CompressedBlock());
+	}
+	
+	public static void prepareItems(){
+		itemList.add(COMPRESSION_WAND = new ItemCompressionWand());
 	}
 	
 	@SubscribeEvent
@@ -55,10 +44,14 @@ public class ContentRegistry {
 	@SubscribeEvent
 	public static void registerItems(Register<Item> event){
 		for(Block block : blockList){
-			ItemBlock iBlock = new ItemBlock(block);
+			ItemBlock iBlock = new ItemBlockMenger();
 			iBlock.setRegistryName(block.getRegistryName());
 			event.getRegistry().register(iBlock);
 		}
+		
+		prepareItems();
+		for(Item item : itemList)
+			event.getRegistry().register(item);
 	}
 
 }
