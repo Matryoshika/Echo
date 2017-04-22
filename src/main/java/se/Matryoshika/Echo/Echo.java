@@ -22,6 +22,7 @@ import se.Matryoshika.Echo.Common.BlockStateGetter;
 import se.Matryoshika.Echo.Common.CommonProxy;
 import se.Matryoshika.Echo.Common.EchoTab;
 import se.Matryoshika.Echo.Common.Content.Tile.TileMenger;
+import se.Matryoshika.Echo.Common.Packets.EchoPacketHandler;
 import se.Matryoshika.Echo.Common.Utils.BlockStateJSON;
 import se.Matryoshika.Echo.Common.Utils.MRLSuggestion;
 
@@ -57,6 +58,7 @@ public class Echo{
     	configDir.mkdir();
     	
     	GameRegistry.registerTileEntity(TileMenger.class, "echo:tile_menger");
+    	EchoPacketHandler.registerEchoPacketHandler();
     }
     
     @EventHandler

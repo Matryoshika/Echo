@@ -1,30 +1,19 @@
 package se.Matryoshika.Echo.Common.Content.Blocks;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.lang3.reflect.FieldUtils;
-
 import net.minecraft.block.Block;
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import se.Matryoshika.Echo.Echo;
-import se.Matryoshika.Echo.Common.Content.ContentRegistry;
 import se.Matryoshika.Echo.Common.Content.Tile.TileMenger;
 import se.Matryoshika.Echo.Common.Utils.EchoConstants;
 
@@ -37,21 +26,21 @@ public class CompressedBlock extends Block {
 		this.setCreativeTab(Echo.TAB);
 	}
 
-	
-
 	public boolean hasTileEntity(IBlockState state) {
 		return true;
 	}
-	
+
 	@Override
-	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack){
-		world.setTileEntity(pos, new TileMenger(NBTUtil.func_190008_d(stack.getTagCompound().getCompoundTag(EchoConstants.NBT_BLOCKSTATE)), stack.getTagCompound().getByte(EchoConstants.NBT_TIER)));
-    }
+	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer,ItemStack stack) {
+		
+		((TileMenger)world.getTileEntity(pos)).update(stack.getTagCompound().getByte(EchoConstants.NBT_TIER), NBTUtil.func_190008_d(stack.getTagCompound().getCompoundTag(EchoConstants.NBT_BLOCKSTATE)));
+		((TileMenger)world.getTileEntity(pos)).markDirty();
+	}
 
 	// TileEntity is added by Compression wand & the ItemBlock respectively, to
 	// supply the proper IBlockState required for rendering etc
 	public TileEntity createTileEntity(World world, IBlockState state) {
-		return null;
+		return new TileMenger();
 	}
 
 	public CompressedBlock setTexture(IBlockState state) {
@@ -77,17 +66,19 @@ public class CompressedBlock extends Block {
 
 	@Override
 	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos,EntityPlayer player) {
-		return getPickBlock(super.getPickBlock(state, target, world, pos, player), (TileMenger) world.getTileEntity(pos));
-	}
-	
-	public ItemStack getPickBlock(ItemStack stack, TileMenger te ){
-		if(te != null){
-			NBTTagCompound data = te.getTileData();
-			stack.getTagCompound().setTag(EchoConstants.NBT_BLOCKSTATE, data.getTag(EchoConstants.NBT_BLOCKSTATE));
-			stack.getTagCompound().setByte(EchoConstants.NBT_TIER, data.getByte(EchoConstants.NBT_TIER));
-		}
-		
-		return stack;
+		return getPickBlock(super.getPickBlock(state, target, world, pos, player),(TileMenger) world.getTileEntity(pos));
 	}
 
+	public ItemStack getPickBlock(ItemStack stack, TileMenger te) {
+		if (te != null && te.getOriginalState() != null) {
+			
+			stack.getTagCompound().setTag(EchoConstants.NBT_BLOCKSTATE, NBTUtil.func_190009_a(new NBTTagCompound(), te.getOriginalState()));
+			stack.getTagCompound().setByte(EchoConstants.NBT_TIER, te.getTier());
+		}
+		else
+			System.out.println("TE is null");
+
+		return stack;
+	}
+	
 }
