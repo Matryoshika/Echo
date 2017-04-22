@@ -10,6 +10,7 @@ import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -25,6 +26,7 @@ import net.minecraft.world.World;
 import se.Matryoshika.Echo.Echo;
 import se.Matryoshika.Echo.Common.Content.ContentRegistry;
 import se.Matryoshika.Echo.Common.Content.Tile.TileMenger;
+import se.Matryoshika.Echo.Common.Utils.EchoConstants;
 
 public class CompressedBlock extends Block {
 
@@ -35,24 +37,16 @@ public class CompressedBlock extends Block {
 		this.setCreativeTab(Echo.TAB);
 	}
 
-	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
-		List<ItemStack> drops = new ArrayList<ItemStack>();
-
-		ItemStack stack = new ItemStack(ContentRegistry.COMPRESSED_BLOCK);
-
-		if (world.getBlockState(pos) instanceof TileMenger) {
-			TileMenger menger = (TileMenger) world.getBlockState(pos);
-			NBTTagCompound nbt = menger.getTileData();
-			stack.setTagCompound(nbt);
-			drops.add(stack);
-		}
-
-		return drops;
-	}
+	
 
 	public boolean hasTileEntity(IBlockState state) {
 		return true;
 	}
+	
+	@Override
+	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack){
+		world.setTileEntity(pos, new TileMenger(NBTUtil.func_190008_d(stack.getTagCompound().getCompoundTag(EchoConstants.NBT_BLOCKSTATE)), stack.getTagCompound().getByte(EchoConstants.NBT_TIER)));
+    }
 
 	// TileEntity is added by Compression wand & the ItemBlock respectively, to
 	// supply the proper IBlockState required for rendering etc
@@ -82,16 +76,17 @@ public class CompressedBlock extends Block {
 	}
 
 	@Override
-	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos,
-			EntityPlayer player) {
-		ItemStack stack = new ItemStack(ContentRegistry.COMPRESSED_BLOCK);
-		if (world.getTileEntity(pos) != null && world.getTileEntity(pos) instanceof TileMenger) {
-			TileMenger menger = (TileMenger) world.getTileEntity(pos);
-			System.out.println(menger.getTileData());
-			if (menger.getTileData() != null)
-				stack.setTagCompound(menger.getTileData());
+	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos,EntityPlayer player) {
+		return getPickBlock(super.getPickBlock(state, target, world, pos, player), (TileMenger) world.getTileEntity(pos));
+	}
+	
+	public ItemStack getPickBlock(ItemStack stack, TileMenger te ){
+		if(te != null){
+			NBTTagCompound data = te.getTileData();
+			stack.getTagCompound().setTag(EchoConstants.NBT_BLOCKSTATE, data.getTag(EchoConstants.NBT_BLOCKSTATE));
+			stack.getTagCompound().setByte(EchoConstants.NBT_TIER, data.getByte(EchoConstants.NBT_TIER));
 		}
-
+		
 		return stack;
 	}
 

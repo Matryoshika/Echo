@@ -1,5 +1,6 @@
 package se.Matryoshika.Echo.Common.Content;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringEscapeUtils;
@@ -40,7 +41,8 @@ public class ItemCompressionWand extends Item{
 			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ){
 			
 		MultiblockFormation form = new MultiblockFormation();
-		for(IBlockState state : BlockStateJSON.getAllowedStates()){
+		List<IBlockState> states = BlockStateJSON.getAllowedStates();
+		for(IBlockState state : states){
 			if(world.getBlockState(pos).equals(state)){
 				BlockPos mid = form.getTrueMiddle(world, pos, state);
 				if(mid != null){

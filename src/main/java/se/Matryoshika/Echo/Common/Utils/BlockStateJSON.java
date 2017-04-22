@@ -89,7 +89,7 @@ public class BlockStateJSON {
 		return states;
 	}
 	
-	public static Byte getTiers(IBlockState from){
+	public static byte getTiers(IBlockState from){
 		if(tiers != null)
 			return tiers.get(from);
 		
