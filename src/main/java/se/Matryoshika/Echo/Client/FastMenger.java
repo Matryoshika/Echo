@@ -13,6 +13,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.model.animation.FastTESR;
+import se.Matryoshika.Echo.Client.Models.MengerCache;
 import se.Matryoshika.Echo.Common.Content.Tile.TileMenger;
 import se.Matryoshika.Echo.Common.Utils.EchoConstants;
 
@@ -30,18 +31,10 @@ public class FastMenger extends FastTESR{
 		
 		IBakedModel original = Minecraft.getMinecraft().getBlockRendererDispatcher().getModelForState(state);
 		
-		List<BakedQuad> all = new ArrayList<BakedQuad>();
-		for(EnumFacing facing : EnumFacing.values()){
-			List<BakedQuad> quads = original.getQuads(state, facing, 0L);
-			
-			for(BakedQuad quad : quads){
-				all.add(quad);
-			}
-		}
-		for(BakedQuad quad : original.getQuads(state, null, 0L))
-			all.add(quad);
+		List<BakedQuad> allQuads = MengerCache.getOrLoadModel(original, state, ((TileMenger)te).getTier());
+		//System.out.println(allQuads);
 		
-		for(BakedQuad quad : all){
+		for(BakedQuad quad : MengerCache.getOrLoadModel(original, state, ((TileMenger)te).getTier())){
 			buffer.addVertexData(quad.getVertexData());
 			buffer.putPosition(x, y, z);
 			

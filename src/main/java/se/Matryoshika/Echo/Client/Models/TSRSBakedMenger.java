@@ -143,7 +143,7 @@ public class TSRSBakedMenger implements IBakedModel {
 		}
 	}
 
-	private static class Transformer extends VertexTransformer {
+	public static class Transformer extends VertexTransformer {
 
 		protected Matrix4f transformation;
 		protected Matrix3f normalTransformation;

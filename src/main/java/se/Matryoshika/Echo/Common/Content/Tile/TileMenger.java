@@ -6,6 +6,7 @@ import net.minecraft.nbt.NBTUtil;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.FMLLog;
 import se.Matryoshika.Echo.Common.Utils.EchoConstants;
 
@@ -43,8 +44,6 @@ public class TileMenger extends TileEntity {
 
 	public void writePacketNBT(NBTTagCompound cmp) {
 
-		System.out.println("State is: " + state);
-
 		cmp.setTag(EchoConstants.NBT_BLOCKSTATE, NBTUtil.func_190009_a(new NBTTagCompound(), state));
 		cmp.setByte(EchoConstants.NBT_TIER, tier);
 	}
@@ -52,7 +51,6 @@ public class TileMenger extends TileEntity {
 	public void readPacketNBT(NBTTagCompound cmp) {
 		tier = cmp.getByte(EchoConstants.NBT_TIER);
 		state = NBTUtil.func_190008_d(cmp.getCompoundTag(EchoConstants.NBT_BLOCKSTATE));
-		System.out.println("State is: " + state);
 	}
 
 	public byte getTier() {
@@ -62,11 +60,34 @@ public class TileMenger extends TileEntity {
 	public IBlockState getOriginalState() {
 		return state;
 	}
+	
+	@Override
+	public NBTTagCompound getUpdateTag(){
+		final NBTTagCompound nbt = new NBTTagCompound();
+		nbt.setInteger("x", pos.getX());
+		nbt.setInteger("y", pos.getY());
+		nbt.setInteger("z", pos.getZ());
+		nbt.setTag(EchoConstants.NBT_BLOCKSTATE, NBTUtil.func_190009_a(new NBTTagCompound(), state));
+		nbt.setByte(EchoConstants.NBT_TIER, tier);
+		
+		return nbt;
+		
+	}
+	
+	@Override
+	public void handleUpdateTag(NBTTagCompound tag){
+		setPos(new BlockPos(tag.getInteger("x"),tag.getInteger("y"),tag.getInteger("z")));
+		state = NBTUtil.func_190008_d(tag.getCompoundTag(EchoConstants.NBT_BLOCKSTATE));
+		tier = tag.getByte(EchoConstants.NBT_TIER);
+	}
 
 	@Override
 	public final SPacketUpdateTileEntity getUpdatePacket() {
 		NBTTagCompound tag = new NBTTagCompound();
-		writePacketNBT(tag);
+		tag.setTag(EchoConstants.NBT_BLOCKSTATE, NBTUtil.func_190009_a(new NBTTagCompound(), state));
+		tag.setByte(EchoConstants.NBT_TIER, tier);
+		if(tag.hasNoTags())
+			return null;
 		return new SPacketUpdateTileEntity(pos, -999, tag);
 	}
 
@@ -77,8 +98,6 @@ public class TileMenger extends TileEntity {
 
 		super.onDataPacket(net, pkt);
 		readPacketNBT(pkt.getNbtCompound());
-
-		FMLLog.bigWarning("Packet sent state: "+ NBTUtil.func_190008_d(pkt.getNbtCompound().getCompoundTag(EchoConstants.NBT_BLOCKSTATE)),new Object[0]);
 
 		update(pkt.getNbtCompound().getByte(EchoConstants.NBT_TIER),NBTUtil.func_190008_d(pkt.getNbtCompound().getCompoundTag(EchoConstants.NBT_BLOCKSTATE)));
 

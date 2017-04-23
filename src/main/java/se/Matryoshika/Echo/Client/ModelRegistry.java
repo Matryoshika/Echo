@@ -20,7 +20,7 @@ public class ModelRegistry {
 	
 	@SubscribeEvent
 	public static void registerModels(ModelRegistryEvent event){
-		//OBJLoader.INSTANCE.addDomain(Echo.MODID);
+		OBJLoader.INSTANCE.addDomain(Echo.MODID);
 		
 		//StateMapperBase ignorer = new StateMapperBase(){
 		//	@Override

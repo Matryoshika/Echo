@@ -9,5 +9,10 @@ public class ClientProxy extends CommonProxy{
 	public void createModels(String name, int tier, ResourceLocation tex){
 		ModelCreator create = new ModelCreator(name, tier, tex);
 	}
+	
+	@Override
+	public void postInit(){
+		
+	}
 
 }
