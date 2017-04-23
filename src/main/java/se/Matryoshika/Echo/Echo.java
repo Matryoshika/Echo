@@ -72,8 +72,15 @@ public class Echo{
     }
     
     @EventHandler
+    public void post(FMLPostInitializationEvent event){
+    	//proxy.postInit(event);
+    }
+    
+    @EventHandler
     public void postInit(FMLServerStartingEvent event){
     	event.registerServerCommand(new BlockStateGetter());
+    	
+    	
     }
     
     public static String getDirectory(){
