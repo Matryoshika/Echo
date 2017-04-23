@@ -31,9 +31,6 @@ public class FastMenger extends FastTESR{
 		
 		IBakedModel original = Minecraft.getMinecraft().getBlockRendererDispatcher().getModelForState(state);
 		
-		List<BakedQuad> allQuads = MengerCache.getOrLoadModel(original, state, ((TileMenger)te).getTier());
-		//System.out.println(allQuads);
-		
 		for(BakedQuad quad : MengerCache.getOrLoadModel(original, state, ((TileMenger)te).getTier())){
 			buffer.addVertexData(quad.getVertexData());
 			buffer.putPosition(x, y, z);
