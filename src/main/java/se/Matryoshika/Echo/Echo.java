@@ -59,6 +59,8 @@ public class Echo{
     	
     	GameRegistry.registerTileEntity(TileMenger.class, "echo:tile_menger");
     	EchoPacketHandler.registerEchoPacketHandler();
+    	
+    	proxy.preInit(event);
     }
     
     @EventHandler

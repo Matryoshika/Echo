@@ -20,7 +20,7 @@ public class EchoModelLoader implements ICustomModelLoader{
 
 	@Override
 	public IModel loadModel(ResourceLocation modelLocation) throws Exception {
-		return null;
+		return new MengerIModel();
 	}
 
 }

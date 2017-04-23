@@ -1,9 +1,8 @@
 package se.Matryoshika.Echo.Common.Content;
 
+import java.text.NumberFormat;
 import java.util.List;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -24,7 +23,7 @@ public class ItemBlockMenger extends ItemBlock {
 		if (nbt != null) {
 			final NBTTagCompound state = nbt.getCompoundTag(EchoConstants.NBT_BLOCKSTATE);
 			if (state != null) {
-				return "Menger " + NBTUtil.func_190008_d(state).getBlock().getLocalizedName() + " Tier " + nbt.getByte(EchoConstants.NBT_TIER);
+				return "Menger Tier " + nbt.getByte(EchoConstants.NBT_TIER);
 			}
 		}
 
@@ -36,7 +35,7 @@ public class ItemBlockMenger extends ItemBlock {
 		final NBTTagCompound nbt = stack.getTagCompound();
 
 		if (nbt != null)
-			tooltip.add(String.valueOf(Math.pow(20, nbt.getByte(EchoConstants.NBT_TIER))));
+			tooltip.add(NumberFormat.getIntegerInstance().format((int)Math.pow(20, nbt.getByte(EchoConstants.NBT_TIER))) + "x " + (NBTUtil.func_190008_d(nbt.getCompoundTag(EchoConstants.NBT_BLOCKSTATE)).getBlock().getLocalizedName()));
 	}
 
 }
