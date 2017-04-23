@@ -61,8 +61,6 @@ public class MengerTESR extends TileEntitySpecialRenderer<TileMenger>{
 	}
 	
 	private void renderOriginalState(TileMenger te, double x, double y, double z, float partialTicks, int destroyStage){
-		
-		if(scaled == null)
 			scaled = new BakedMengerOneModel(Minecraft.getMinecraft().getBlockRendererDispatcher().getModelForState(te.getOriginalState()), te.getOriginalState());
 		
 		
@@ -72,12 +70,12 @@ public class MengerTESR extends TileEntitySpecialRenderer<TileMenger>{
     	GlStateManager.translate(-te.getPos().getX(), -te.getPos().getY(), -te.getPos().getZ());
         Tessellator tessellator = Tessellator.getInstance();
         tessellator.getBuffer().begin(GL11.GL_QUADS, DefaultVertexFormats.BLOCK);
-        
-        for(BakedQuad quad : MengerCache.getOrLoadModel(Minecraft.getMinecraft().getBlockRendererDispatcher().getModelForState(te.getOriginalState()), te.getOriginalState(), te.getTier())){
-        	tessellator.getBuffer().addVertexData(quad.getVertexData());
-        	tessellator.getBuffer().putPosition(x, y, z);
-        }
-        		
+        Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelRenderer().renderModel(
+                world,
+                scaled,
+                world.getBlockState(te.getPos()),
+                te.getPos(),
+                Tessellator.getInstance().getBuffer(), false);
         tessellator.draw();
         GlStateManager.translate(te.getPos().getX(), te.getPos().getY(), te.getPos().getZ());
         GlStateManager.disableBlend();
