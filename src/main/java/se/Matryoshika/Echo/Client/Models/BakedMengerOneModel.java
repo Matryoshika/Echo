@@ -43,19 +43,18 @@ public class BakedMengerOneModel implements IBakedModel{
 		if(!(someState instanceof IExtendedBlockState))
 			return placeHolder(someState, side, rand);
 		
-		IBakedModel wanted = Minecraft.getMinecraft().getBlockRendererDispatcher().getModelForState(Blocks.SNOW.getDefaultState());
+		FMLLog.bigWarning("Yes it is", new Object[0]);
 		
-		IBlockState UNCAMOUFLAGED_BLOCK = Blocks.COBBLESTONE.getDefaultState();
+		IBakedModel wanted = Minecraft.getMinecraft().getBlockRendererDispatcher().getModelForState(Blocks.SNOW.getDefaultState());
 		IExtendedBlockState state = (IExtendedBlockState) someState;
 		IBlockState copy = state.getValue(CompressedBlock.IBS);
 		
 		
-	        // Retrieve the IBakedModel of the copied block and return it.
-	        Minecraft mc = Minecraft.getMinecraft();
-	        BlockRendererDispatcher blockRendererDispatcher = mc.getBlockRendererDispatcher();
-	        BlockModelShapes blockModelShapes = blockRendererDispatcher.getBlockModelShapes();
-	        IBakedModel copiedBlockModel = blockModelShapes.getModelForState(copy);
-	        wanted = copiedBlockModel;
+        Minecraft mc = Minecraft.getMinecraft();
+        BlockRendererDispatcher blockRendererDispatcher = mc.getBlockRendererDispatcher();
+        BlockModelShapes blockModelShapes = blockRendererDispatcher.getBlockModelShapes();
+        IBakedModel copiedBlockModel = blockModelShapes.getModelForState(copy);
+        wanted = copiedBlockModel;
 		
 		
 		
