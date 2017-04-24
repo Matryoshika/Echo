@@ -15,7 +15,7 @@ public class EchoModelLoader implements ICustomModelLoader{
 
 	@Override
 	public boolean accepts(ResourceLocation loc) {
-		return loc.getResourceDomain().equals(Echo.MODID);
+		return loc.getResourceDomain().equals(Echo.MODID) && !loc.getResourcePath().contains("phase");
 	}
 
 	@Override

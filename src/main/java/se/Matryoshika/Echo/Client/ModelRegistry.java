@@ -13,8 +13,8 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import se.Matryoshika.Echo.Echo;
-import se.Matryoshika.Echo.Client.Models.BakedMengerOneModel;
 import se.Matryoshika.Echo.Client.Models.EchoModelLoader;
+import se.Matryoshika.Echo.Client.Models.MengerTiers.BakedMengerOneModel;
 import se.Matryoshika.Echo.Common.Content.ContentRegistry;
 
 @Mod.EventBusSubscriber
@@ -22,6 +22,7 @@ public class ModelRegistry {
 	
 	@SubscribeEvent
 	public static void registerModels(ModelRegistryEvent event){
+		OBJLoader.INSTANCE.addDomain(Echo.MODID);
 		ModelLoaderRegistry.registerLoader(new EchoModelLoader());
 		
 		
@@ -34,8 +35,8 @@ public class ModelRegistry {
 		};
 		ModelLoader.setCustomStateMapper(ContentRegistry.COMPRESSED_BLOCK, ignorer);
 		
-		//for(Block block : ContentRegistry.blockList)
-			//ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), 0, new ModelResourceLocation(block.getRegistryName(), "inventory"));
+		for(Block block : ContentRegistry.blockList)
+			ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), 0, new ModelResourceLocation(block.getRegistryName(), "inventory"));
 		
 		//ClientRegistry.bindTileEntitySpecialRenderer(TileMenger.class, new FastMenger());
 		
