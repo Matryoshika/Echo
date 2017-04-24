@@ -15,18 +15,21 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import se.Matryoshika.Echo.Common.Content.Blocks.CompressedBlock;
+import se.Matryoshika.Echo.Common.Content.Blocks.PhaseSubstantiatorBlock;
 
 @EventBusSubscriber
 public class ContentRegistry {
 	
 	public static Block COMPRESSED_BLOCK;
 	public static Item COMPRESSION_WAND;
+	public static Block PHASE_SUBSTANTIATOR;
 	
 	public static List<Block> blockList = new ArrayList<Block>();
 	public static List<Item> itemList = new ArrayList<Item>();
 	
 	public static void prepareBlocks(){
 		blockList.add(COMPRESSED_BLOCK = new CompressedBlock());
+		blockList.add(PHASE_SUBSTANTIATOR = new PhaseSubstantiatorBlock());
 	}
 	
 	public static void prepareItems(){
@@ -44,7 +47,11 @@ public class ContentRegistry {
 	@SubscribeEvent
 	public static void registerItems(Register<Item> event){
 		for(Block block : blockList){
-			ItemBlock iBlock = new ItemBlockMenger();
+			ItemBlock iBlock = null;
+			if(block == COMPRESSED_BLOCK)
+				iBlock = new ItemBlockMenger();
+			else
+				iBlock = new ItemBlock(block);
 			iBlock.setRegistryName(block.getRegistryName());
 			event.getRegistry().register(iBlock);
 		}
