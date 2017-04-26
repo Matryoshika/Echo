@@ -1,4 +1,4 @@
-package se.Matryoshika.Echo.Common.Content;
+package se.Matryoshika.Echo.Common.Content.Items;
 
 import java.util.List;
 import java.util.Map;
@@ -23,6 +23,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLLog;
 import se.Matryoshika.Echo.Echo;
+import se.Matryoshika.Echo.Common.Content.ContentRegistry;
 import se.Matryoshika.Echo.Common.Content.Tile.TileMenger;
 import se.Matryoshika.Echo.Common.Utils.BlockStateJSON;
 import se.Matryoshika.Echo.Common.Utils.MultiblockFormation;
@@ -48,6 +49,8 @@ public class ItemCompressionWand extends Item{
 				if(mid != null){
 					for(BlockPos _pos : BlockPos.getAllInBox(mid.add(-1, -1, -1), mid.add(1, 1, 1))){
 						if(world.getBlockState(_pos).equals(state)){
+							
+							world.createExplosion(null, mid.getX()+0.5, mid.getY()+0.5, mid.getZ()+0.5, 0, true);
 							world.setBlockToAir(_pos);
 							world.setBlockState(mid, ContentRegistry.COMPRESSED_BLOCK.getDefaultState());
 							world.setTileEntity(mid, new TileMenger(state, (byte) 1));
