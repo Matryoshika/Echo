@@ -10,12 +10,15 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import se.Matryoshika.Echo.Echo;
 import se.Matryoshika.Echo.Client.Models.EchoModelLoader;
+import se.Matryoshika.Echo.Client.Models.TESRTemporalDilation;
 import se.Matryoshika.Echo.Client.Models.MengerTiers.BakedMengerOneModel;
 import se.Matryoshika.Echo.Common.Content.ContentRegistry;
+import se.Matryoshika.Echo.Common.Content.Tile.TileTemporalDilation;
 
 @Mod.EventBusSubscriber
 public class ModelRegistry {
@@ -38,7 +41,10 @@ public class ModelRegistry {
 		for(Block block : ContentRegistry.blockList)
 			ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), 0, new ModelResourceLocation(block.getRegistryName(), "inventory"));
 		
-		//ClientRegistry.bindTileEntitySpecialRenderer(TileMenger.class, new FastMenger());
+		for(Item item : ContentRegistry.itemList)
+			ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
+		
+		ClientRegistry.bindTileEntitySpecialRenderer(TileTemporalDilation.class, new TESRTemporalDilation());
 		
 	}
 

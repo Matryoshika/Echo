@@ -146,8 +146,17 @@ public class BakedMengerOneModel implements IPerspectiveAwareModel {
 			
 			//System.out.println(stack.getTagCompound().getByte(EchoConstants.NBT_TIER));
 			byte tier = stack.getTagCompound().getByte(EchoConstants.NBT_TIER);
+			if(items.get(tier) != null && items.get(tier).get(state) != null)
+				return items.get(tier).get(state);
 			
 			return Minecraft.getMinecraft().getBlockRendererDispatcher().getModelForState(state);
+			/*
+			if(items.get(tier) == null)
+				items.put(tier, new HashMap<IBlockState,IBakedModel>());
+			if(items.get(tier).get(state) == null)
+				items.get(tier).put(state, new TSRSBakedMenger(new ItemBakedMenger(state, tier), 0, 0, 0, 0, 0, 0, 0.6f));
+			*/
+			
 		}
 	};
 	
