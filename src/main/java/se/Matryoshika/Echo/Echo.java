@@ -17,14 +17,20 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import se.Matryoshika.Echo.Client.GUI.GUIHandler;
 import se.Matryoshika.Echo.Common.BlockStateGetter;
 import se.Matryoshika.Echo.Common.CommonProxy;
 import se.Matryoshika.Echo.Common.EchoTab;
+import se.Matryoshika.Echo.Common.Content.Tile.TileLaniaiteFabricator;
 import se.Matryoshika.Echo.Common.Content.Tile.TileMenger;
+import se.Matryoshika.Echo.Common.Content.Tile.TilePhaseSubstantiator;
+import se.Matryoshika.Echo.Common.Content.Tile.TileTemporalDilation;
 import se.Matryoshika.Echo.Common.Packets.EchoPacketHandler;
 import se.Matryoshika.Echo.Common.Utils.BlockStateJSON;
 import se.Matryoshika.Echo.Common.Utils.MRLSuggestion;
+import se.Matryoshika.Echo.Common.Utils.RecipeHandler;
 
 @Mod(
 	modid = Echo.MODID, 
@@ -58,6 +64,9 @@ public class Echo{
     	configDir.mkdir();
     	
     	GameRegistry.registerTileEntity(TileMenger.class, "echo:tile_menger");
+    	GameRegistry.registerTileEntity(TilePhaseSubstantiator.class, "echo:phase_substantiator");
+    	GameRegistry.registerTileEntity(TileTemporalDilation.class, "echo:temporal_dilator");
+    	GameRegistry.registerTileEntity(TileLaniaiteFabricator.class, "echo:laniaite_fabricator");
     	EchoPacketHandler.registerEchoPacketHandler();
     	
     	proxy.preInit(event);
@@ -67,8 +76,13 @@ public class Echo{
     public void init(FMLInitializationEvent event){
     	FMLLog.bigWarning(NBTUtil.func_190009_a(new NBTTagCompound(), Blocks.DIAMOND_BLOCK.getDefaultState()).toString(), new Object[0]);
     	
+    	NetworkRegistry.INSTANCE.registerGuiHandler(this, new GUIHandler());
+    	
     	BlockStateJSON.createJSON();
     	
+    	proxy.init(event);
+    	
+    	RecipeHandler.init();
     	
     	
     }
