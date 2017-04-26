@@ -14,15 +14,21 @@ import net.minecraftforge.event.RegistryEvent.Register;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import se.Matryoshika.Echo.Common.Content.Blocks.CompressedBlock;
-import se.Matryoshika.Echo.Common.Content.Blocks.PhaseSubstantiatorBlock;
+import se.Matryoshika.Echo.Common.Content.Blocks.*;
+import se.Matryoshika.Echo.Common.Content.Items.*;
 
 @EventBusSubscriber
 public class ContentRegistry {
 	
 	public static Block COMPRESSED_BLOCK;
-	public static Item COMPRESSION_WAND;
 	public static Block PHASE_SUBSTANTIATOR;
+	public static Block TEMPORAL_DILATOR;
+	public static Block LANIAITE_FABRICATOR;
+	public static Block LANIAITE_BLOCK;
+	
+	public static Item COMPRESSION_WAND;
+	public static Item LANIAITE_CHUNK;
+	public static Item LANIAITE_FRAGMENT;
 	
 	public static List<Block> blockList = new ArrayList<Block>();
 	public static List<Item> itemList = new ArrayList<Item>();
@@ -30,10 +36,15 @@ public class ContentRegistry {
 	public static void prepareBlocks(){
 		blockList.add(COMPRESSED_BLOCK = new CompressedBlock());
 		blockList.add(PHASE_SUBSTANTIATOR = new PhaseSubstantiatorBlock());
+		blockList.add(TEMPORAL_DILATOR = new TemporalDilatorBlock());
+		blockList.add(LANIAITE_FABRICATOR = new LaniaiteFabricator());
+		blockList.add(LANIAITE_BLOCK = new LaniaiteBlock());
 	}
 	
 	public static void prepareItems(){
 		itemList.add(COMPRESSION_WAND = new ItemCompressionWand());
+		itemList.add(LANIAITE_CHUNK = new LaniaiteChunk());
+		itemList.add(LANIAITE_FRAGMENT = new LaniaiteFragment());
 	}
 	
 	@SubscribeEvent
