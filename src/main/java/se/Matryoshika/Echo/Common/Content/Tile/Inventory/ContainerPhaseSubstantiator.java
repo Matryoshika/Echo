@@ -8,14 +8,16 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
 public class ContainerPhaseSubstantiator extends Container {
-
-	private static final int SLOTS_PER_ROW = 1;
+	
+	private static final int SLOTS_PER_ROW = 9;
 
 	private final IContainerCallbacks callbacks;
 
 	private final IItemHandler playerInventory;
 
+
 	private final IItemHandler chestInventory;
+
 
 	private final int numRows;
 
@@ -26,7 +28,7 @@ public class ContainerPhaseSubstantiator extends Container {
 		callbacks = containerCallbacks;
 		callbacks.onContainerOpened(player);
 
-		numRows = chestInventory.getSlots() / SLOTS_PER_ROW;
+		numRows = (chestInventory.getSlots() / SLOTS_PER_ROW);
 
 		final int chestOffset = (numRows - 4) * 18;
 
@@ -38,7 +40,7 @@ public class ContainerPhaseSubstantiator extends Container {
 
 		for (int row = 0; row < 3; ++row) {
 			for (int col = 0; col < SLOTS_PER_ROW; ++col) {
-				addSlotToContainer(new SlotItemHandler(playerInventory, col + row * SLOTS_PER_ROW + SLOTS_PER_ROW,8 + col * 18, 103 + row * 18 + chestOffset));
+				addSlotToContainer(new SlotItemHandler(playerInventory, col + row * SLOTS_PER_ROW + SLOTS_PER_ROW, 8 + col * 18, 103 + row * 18 + chestOffset));
 			}
 		}
 
@@ -88,16 +90,31 @@ public class ContainerPhaseSubstantiator extends Container {
 		callbacks.onContainerClosed(playerIn);
 	}
 
+	/**
+	 * Get the player inventory.
+	 *
+	 * @return The player inventory
+	 */
 	public IItemHandler getPlayerInventory() {
 		return playerInventory;
 	}
 
+	/**
+	 * Get the chest inventory.
+	 *
+	 * @return The chest inventory
+	 */
 	public IItemHandler getChestInventory() {
 		return chestInventory;
 	}
 
+	/**
+	 * Get the number of rows in the chest inventory.
+	 *
+	 * @return The number of rows in the chest inventory
+	 */
 	public int getNumRows() {
 		return numRows;
-	}
+}
 
 }
