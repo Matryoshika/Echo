@@ -14,7 +14,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
@@ -22,6 +22,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import se.Matryoshika.Echo.Echo;
 import se.Matryoshika.Echo.Common.Content.Tile.TileMenger;
 import se.Matryoshika.Echo.Common.Utils.EchoConstants;
@@ -44,9 +46,8 @@ public class CompressedBlock extends Block {
 		((TileMenger)world.getTileEntity(pos)).update(stack.getTagCompound().getByte(EchoConstants.NBT_TIER), NBTUtil.func_190008_d(stack.getTagCompound().getCompoundTag(EchoConstants.NBT_BLOCKSTATE)));
 		((TileMenger)world.getTileEntity(pos)).markDirty();
 	}
-
-	// TileEntity is added by Compression wand & the ItemBlock respectively, to
-	// supply the proper IBlockState required for rendering etc
+	
+	@Override
 	public TileEntity createTileEntity(World world, IBlockState state) {
 		return new TileMenger();
 	}
@@ -59,29 +60,32 @@ public class CompressedBlock extends Block {
 
 	@Override
 	public EnumBlockRenderType getRenderType(IBlockState state) {
-		return EnumBlockRenderType.INVISIBLE;
+		return EnumBlockRenderType.MODEL;
 	}
 
 	@Override
 	public boolean isOpaqueCube(IBlockState state) {
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean isFullCube(IBlockState state) {
-		return false;
+		return true;
 	}
 
 	@Override
 	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos,EntityPlayer player) {
-		return getPickBlock(super.getPickBlock(state, target, world, pos, player),(TileMenger) world.getTileEntity(pos));
+		return getPickBlock(super.getPickBlock(state, target, world, pos, player),(TileMenger) world.getTileEntity(pos), world, pos, state);
 	}
 
-	public ItemStack getPickBlock(ItemStack stack, TileMenger te) {
+	public ItemStack getPickBlock(ItemStack stack, TileMenger te, World world, BlockPos pos, IBlockState state) {
 		if (te != null && te.getOriginalState() != null) {
 			if(!stack.hasTagCompound())
 				stack.setTagCompound(new NBTTagCompound());
-			stack.getTagCompound().setTag(EchoConstants.NBT_BLOCKSTATE, NBTUtil.func_190009_a(new NBTTagCompound(), te.getOriginalState()));
+			IExtendedBlockState menger = (IExtendedBlockState) getExtendedState(state, world, pos);
+			
+			IBlockState copy = menger.getValue(IBS);
+			stack.getTagCompound().setTag(EchoConstants.NBT_BLOCKSTATE, NBTUtil.func_190009_a(new NBTTagCompound(), copy));
 			stack.getTagCompound().setByte(EchoConstants.NBT_TIER, te.getTier());
 		}
 		else
@@ -101,6 +105,15 @@ public class CompressedBlock extends Block {
 	@Override
     protected BlockStateContainer createBlockState(){
         return new ExtendedBlockState(this, new IProperty[] {}, new IUnlistedProperty[]{ IBS, BIT });
+    }
+	
+	public BlockStateContainer getBSC(){
+		return createBlockState();
+	}
+	
+	@SideOnly(Side.CLIENT)
+    public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side){
+        return true;
     }
 	
 	
