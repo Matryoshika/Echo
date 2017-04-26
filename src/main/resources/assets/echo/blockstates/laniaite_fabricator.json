@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "normal": { "model": "echo:laniaite_fabricator" },
+        "inventory": { "model": "echo:laniaite_fabricator" }
+    }
+}  
