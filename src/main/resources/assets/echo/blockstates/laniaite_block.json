@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "normal": { "model": "echo:laniaite_block" },
+        "inventory": { "model": "echo:laniaite_block" }
+    }
+}  
