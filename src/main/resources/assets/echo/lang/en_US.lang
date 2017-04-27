@@ -1,0 +1,10 @@
+#Items
+item.echo:compression_wand.name=Compression Wand
+item.echo:laniaite_fragment.name=Laniaite Fragment
+item.echo:laniaite_chunk.name=Laniaite Chunk
+ 
+#Blocks
+tile.echo:laniaite_block.name=Block of Laniaite
+tile.echo:laniaite_fabricator.name=Laniaite Fabricator
+tile.echo:phase_substantiator.name=Phase Substantiator
+tile.echo:temporal_dilator.name=Temporal Dilator
