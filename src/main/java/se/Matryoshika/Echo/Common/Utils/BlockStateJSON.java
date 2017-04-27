@@ -25,6 +25,7 @@ import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTUtil;
 import se.Matryoshika.Echo.Echo;
+import se.Matryoshika.Echo.Common.BlockStateGetter;
 
 public class BlockStateJSON {
 	
@@ -36,12 +37,36 @@ public class BlockStateJSON {
 		Map<String,Byte> default_states = Maps.newHashMap();
 		
 		
-		default_states.put("{Name:\"minecraft:emerald_block\"}", (byte)6);
-		//default_states.put("{Properties:{facing:\"north\"},Name:\"minecraft:furnace\"}", (byte)2);
-		default_states.put("{Name:\"minecraft:diamond_block\"}", (byte)6);
-		default_states.put("{Name:\"minecraft:iron_block\"}", (byte)6);
+		default_states.put("{Properties:{variant:\"dirt\",snowy:\"false\"},Name:\"minecraft:dirt\"}", (byte) 6);
+		default_states.put("{Properties:{variant:\"stone\"},Name:\"minecraft:stone\"}", (byte) 6);
+		default_states.put("{Properties:{variant:\"diorite\"},Name:\"minecraft:stone\"}", (byte)6);
+		default_states.put("{Properties:{variant:\"granite\"},Name:\"minecraft:stone\"}", (byte)6);
+		default_states.put("{Properties:{variant:\"andesite\"},Name:\"minecraft:stone\"}", (byte)6);
+		default_states.put("{Name:\"minecraft:cobblestone\"}", (byte)6);
+		default_states.put("{Name:\"minecraft:gravel\"}", (byte)6);
+		default_states.put("{Name:\"minecraft:clay\"}", (byte)6);
+		default_states.put("{Properties:{variant:\"stonebrick\"},Name:\"minecraft:stonebrick\"}", (byte)4);
+		default_states.put("{Properties:{variant:\"mossy_stonebrick\"},Name:\"minecraft:stonebrick\"}", (byte)4);
+		default_states.put("{Properties:{variant:\"cracked_stonebrick\"},Name:\"minecraft:stonebrick\"}",(byte) 4);
+		default_states.put("{Properties:{variant:\"chiseled_stonebrick\"},Name:\"minecraft:stonebrick\"}", (byte)4);
+		default_states.put("{Properties:{variant:\"sand\"},Name:\"minecraft:sand\"}", (byte)6);
+		default_states.put("{Properties:{type:\"sandstone\"},Name:\"minecraft:sandstone\"}", (byte)6);
 		default_states.put("{Name:\"minecraft:redstone_block\"}", (byte)6);
-		//default_states.put("{Properties:{variant:\"terrasteel\"},Name:\"botania:storage\"}", (byte)6);
+		default_states.put("{Name:\"minecraft:lapis_block\"}", (byte)6);
+		default_states.put("{Properties:{variant:\"default\"},Name:\"minecraft:quartz_block\"}",(byte) 4);
+		default_states.put("{Name:\"minecraft:iron_block\"}", (byte)6);
+		default_states.put("{Name:\"minecraft:gold_block\"}", (byte)6);
+		default_states.put("{Name:\"minecraft:diamond_block\"}",(byte) 6);
+		default_states.put("{Name:\"minecraft:emerald_block\"}", (byte)6);
+		default_states.put("{Name:\"minecraft:soul_sand\"}", (byte)6);
+		default_states.put("{Name:\"minecraft:netherrack\"}", (byte)6);
+		default_states.put("{Name:\"minecraft:glowstone\"}", (byte)6);
+		default_states.put("{Name:\"minecraft:nether_brick\"}",(byte) 4);
+		default_states.put("{Name:\"minecraft:end_stone\"}", (byte)6);
+		default_states.put("{Name:\"minecraft:coal_block\"}", (byte)4);
+		default_states.put("{Name:\"minecraft:nether_wart_block\"}", (byte)4);
+		default_states.put("{Name:\"minecraft:obsidian\"}", (byte)4);
+		default_states.put("{Properties:{explode:\"false\"},Name:\"minecraft:tnt\"}", (byte)3);
 		
 		try {
 			if(blockStates.createNewFile())
@@ -82,7 +107,7 @@ public class BlockStateJSON {
 				e.printStackTrace();
 			}
 			IBlockState state = NBTUtil.func_190008_d(nbt);
-			if(state != null && state.isFullBlock())
+			if(state != null && state.isFullBlock() && !BlockStateGetter.blacklist.contains(state.getBlock()))
 				states.add(state);
 		}
 		
