@@ -22,6 +22,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import scala.actors.threadpool.Arrays;
+import se.Matryoshika.Echo.Common.Content.ContentRegistry;
 import se.Matryoshika.Echo.Common.Utils.BlockStateJSON;
 
 public class BlockStateGetter implements ICommand{
@@ -38,7 +39,7 @@ public class BlockStateGetter implements ICommand{
 
 	@Override
 	public String getCommandUsage(ICommandSender sender) {
-		return "Returns a string representing the wanted object. 'block' returns the blockstate of the block below you, 'item' returns the nbt-compound of the item in your hand.";
+		return "/echo <block> [<n>] [<paste>] {<reload>}";
 	}
 
 	@Override
@@ -55,7 +56,7 @@ public class BlockStateGetter implements ICommand{
 				
 				IBlockState state = ((EntityPlayer)sender).worldObj.getBlockState(new BlockPos(((EntityPlayer)sender).posX, ((EntityPlayer)sender).posY, ((EntityPlayer)sender).posZ).down());
 				
-				if(state.isFullBlock())
+				if(state.isFullBlock() && state.getBlock() != ContentRegistry.LANIAITE_BLOCK)
 					((EntityPlayer)sender).addChatMessage(new TextComponentTranslation((NBTUtil.func_190009_a(new NBTTagCompound(), state).toString())));
 				else{
 					ItemStack orig = new ItemStack(Item.getItemFromBlock(state.getBlock()), 1, state.getBlock().getMetaFromState(state));
@@ -70,7 +71,7 @@ public class BlockStateGetter implements ICommand{
 			else if(args.length == 3 && args[0].equals("block") && args[1].matches("^[1-6].*") && args[2].equals("paste")){
 				IBlockState state = ((EntityPlayer)sender).worldObj.getBlockState(new BlockPos(((EntityPlayer)sender).posX, ((EntityPlayer)sender).posY, ((EntityPlayer)sender).posZ).down());
 				
-				if(state.isFullBlock()){
+				if(state.isFullBlock() && state.getBlock() != ContentRegistry.LANIAITE_BLOCK){
 					System.out.println(Byte.parseByte(args[1]));
 					BlockStateJSON.addBlockStateToJSON(state, Byte.parseByte(args[1]));
 				}
@@ -79,7 +80,7 @@ public class BlockStateGetter implements ICommand{
 			else if(args.length == 4 && args[0].equals("block") && args[1].matches("^[1-6].*") && args[2].equals("paste") && args[3].equals("reload")){
 				IBlockState state = ((EntityPlayer)sender).worldObj.getBlockState(new BlockPos(((EntityPlayer)sender).posX, ((EntityPlayer)sender).posY, ((EntityPlayer)sender).posZ).down());
 				
-				if(state.isFullBlock()){
+				if(state.isFullBlock() && state.getBlock() != ContentRegistry.LANIAITE_BLOCK){
 					System.out.println(Byte.parseByte(args[1]));
 					BlockStateJSON.addBlockStateToJSON(state, Byte.parseByte(args[1]));
 				}
@@ -87,7 +88,7 @@ public class BlockStateGetter implements ICommand{
 			}
 			
 			else{
-				((EntityPlayer)sender).addChatMessage(new TextComponentTranslation("Please provide type. Applicable: 'block', 'item'"));
+				((EntityPlayer)sender).addChatMessage(new TextComponentTranslation("Please provide type. Applicable: 'block' or 'block' 'n' 'paste' ['reload']"));
 			}
 			
 		}
@@ -104,7 +105,7 @@ public class BlockStateGetter implements ICommand{
 	@Override
 	public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args,
 			BlockPos pos) {
-		return new ArrayList<String>(Arrays.asList(new String[]{"block","item"}));
+		return new ArrayList<String>(Arrays.asList(new String[]{"block"}));
 	}
 
 	@Override
