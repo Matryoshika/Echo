@@ -19,8 +19,8 @@ public class GUIHandler implements IGuiHandler{
 		switch(ID){
 			
 		case GUI_PHASE_SUBSTANTIATOR:
-			if(tile != null)
-				return ((TilePhaseSubstantiator)tile).createContainer(player);
+			if(tile != null && tile instanceof TilePhaseSubstantiator)
+				return new ContainerPhaseSubstantiator(player.inventory, (TilePhaseSubstantiator)tile);
 			
 			default:
 				return null;
@@ -36,8 +36,8 @@ final TileEntity tile = world.getTileEntity(new BlockPos(x, y, z));
 		switch(ID){
 			
 		case GUI_PHASE_SUBSTANTIATOR:
-			if(tile != null)
-				return new GUIPhaseSubstantiator((ContainerPhaseSubstantiator) ((TilePhaseSubstantiator)tile).createContainer(player));
+			if(tile != null && tile instanceof TilePhaseSubstantiator)
+				return new GUIPhaseSubstantiator(new ContainerPhaseSubstantiator(player.inventory, (TilePhaseSubstantiator) tile), (TilePhaseSubstantiator)tile);
 			
 			default:
 				return null;
