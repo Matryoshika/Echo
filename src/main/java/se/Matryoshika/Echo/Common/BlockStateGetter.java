@@ -11,6 +11,7 @@ import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTUtil;
@@ -21,6 +22,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import scala.actors.threadpool.Arrays;
+import se.Matryoshika.Echo.Common.Utils.BlockStateJSON;
 
 public class BlockStateGetter implements ICommand{
 
@@ -49,17 +51,41 @@ public class BlockStateGetter implements ICommand{
 		
 		if(sender instanceof EntityPlayer){
 			
-			if(args.length > 0 && args[0].equals("block")){
-				Vec3d vec3 = ((EntityPlayer)sender).getPositionEyes(1.0F);
-				Vec3d lookVec = ((EntityPlayer)sender).getLook(1.0F);
-				RayTraceResult res = ((EntityPlayer)sender).worldObj.rayTraceBlocks(vec3, lookVec, true, true, true);
-				
+			if(args.length == 1 && args[0].equals("block")){
 				
 				IBlockState state = ((EntityPlayer)sender).worldObj.getBlockState(new BlockPos(((EntityPlayer)sender).posX, ((EntityPlayer)sender).posY, ((EntityPlayer)sender).posZ).down());
 				
-				((EntityPlayer)sender).addChatMessage(new TextComponentTranslation((NBTUtil.func_190009_a(new NBTTagCompound(), state).toString())));
+				if(state.isFullBlock())
+					((EntityPlayer)sender).addChatMessage(new TextComponentTranslation((NBTUtil.func_190009_a(new NBTTagCompound(), state).toString())));
+				else{
+					ItemStack orig = new ItemStack(Item.getItemFromBlock(state.getBlock()), 1, state.getBlock().getMetaFromState(state));
+					if(orig != null && orig.getItem() != null)
+						((EntityPlayer)sender).addChatMessage(new TextComponentTranslation("The provided state for " + orig.getDisplayName() + " is not a full block!"));
+					else{
+						((EntityPlayer)sender).addChatMessage(new TextComponentTranslation("The provided state for " + state.getBlock().getRegistryName().toString() + " is not a full block!"));
+					}
+				}
 				return;
 			}
+			else if(args.length == 3 && args[0].equals("block") && args[1].matches("^[1-6].*") && args[2].equals("paste")){
+				IBlockState state = ((EntityPlayer)sender).worldObj.getBlockState(new BlockPos(((EntityPlayer)sender).posX, ((EntityPlayer)sender).posY, ((EntityPlayer)sender).posZ).down());
+				
+				if(state.isFullBlock()){
+					System.out.println(Byte.parseByte(args[1]));
+					BlockStateJSON.addBlockStateToJSON(state, Byte.parseByte(args[1]));
+				}
+			}
+			
+			else if(args.length == 4 && args[0].equals("block") && args[1].matches("^[1-6].*") && args[2].equals("paste") && args[3].equals("reload")){
+				IBlockState state = ((EntityPlayer)sender).worldObj.getBlockState(new BlockPos(((EntityPlayer)sender).posX, ((EntityPlayer)sender).posY, ((EntityPlayer)sender).posZ).down());
+				
+				if(state.isFullBlock()){
+					System.out.println(Byte.parseByte(args[1]));
+					BlockStateJSON.addBlockStateToJSON(state, Byte.parseByte(args[1]));
+				}
+				BlockStateJSON.reload();
+			}
+			
 			else{
 				((EntityPlayer)sender).addChatMessage(new TextComponentTranslation("Please provide type. Applicable: 'block', 'item'"));
 			}
