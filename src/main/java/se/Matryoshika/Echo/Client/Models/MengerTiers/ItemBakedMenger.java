@@ -32,6 +32,7 @@ import static se.Matryoshika.Echo.Client.Models.EchoModelCache.*;
 
 import se.Matryoshika.Echo.Echo;
 import se.Matryoshika.Echo.Client.Models.TSRSBakedMenger;
+import se.Matryoshika.Echo.Common.Content.ContentRegistry;
 import se.Matryoshika.Echo.Common.Content.Blocks.CompressedBlock;
 
 public class ItemBakedMenger implements IPerspectiveAwareModel {
@@ -63,14 +64,8 @@ public class ItemBakedMenger implements IPerspectiveAwareModel {
 					
 					TSRSBakedMenger model = null;
 					if(x == 0 && z == 0){
-						IModel mod = null;
-						try {
-							mod = ModelLoaderRegistry.getModel(new ResourceLocation(Echo.MODID, "block/void"));
-						} catch (Exception e) {
-						}
-						model = new TSRSBakedMenger(mod.bake(TRSRTransformation.identity(), DefaultVertexFormats.BLOCK,
-								location -> Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(location.toString())), x * (1 / 3f), -1 * (1 / 3f), z * (1 / 3f), 1 / 3f);
-						allQuads.addAll(model.getQuads(Blocks.BEDROCK.getDefaultState(), side, rand));
+						model = new TSRSBakedMenger(Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes().getModelForState(ContentRegistry.VOID.getDefaultState()), x * (1 / 3f), -1 * (1 / 3f), z * (1 / 3f), 1 / 3f);
+						allQuads.addAll(model.getQuads(ContentRegistry.VOID.getDefaultState(), side, rand));
 						continue;
 					}
 					if(this.tier != 1 && this.tier < (byte)6)
@@ -86,14 +81,8 @@ public class ItemBakedMenger implements IPerspectiveAwareModel {
 				for(byte y = -1; y < 2; y++){
 					TSRSBakedMenger model = null;
 					if(z == 0 && y == 0){
-						IModel mod = null;
-						try {
-							mod = ModelLoaderRegistry.getModel(new ResourceLocation(Echo.MODID, "block/void"));
-						} catch (Exception e) {
-						}
-						model = new TSRSBakedMenger(mod.bake(TRSRTransformation.identity(), DefaultVertexFormats.BLOCK,
-								location -> Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(location.toString())), 1 * (1 / 3f), y * (1 / 3f), z * (1 / 3f), 1 / 3f);
-						allQuads.addAll(model.getQuads(Blocks.BEDROCK.getDefaultState(), side, rand));
+						model = new TSRSBakedMenger(Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes().getModelForState(ContentRegistry.VOID.getDefaultState()), 1 * (1 / 3f), y * (1 / 3f), z * (1 / 3f), 1 / 3f);
+						allQuads.addAll(model.getQuads(ContentRegistry.VOID.getDefaultState(), side, rand));
 						continue;
 					}
 					
@@ -110,14 +99,8 @@ public class ItemBakedMenger implements IPerspectiveAwareModel {
 				for(byte y = -1; y < 2; y++){
 					TSRSBakedMenger model = null;
 					if(x == 0 && y == 0){
-						IModel mod = null;
-						try {
-							mod = ModelLoaderRegistry.getModel(new ResourceLocation(Echo.MODID, "block/void"));
-						} catch (Exception e) {
-						}
-						model = new TSRSBakedMenger(mod.bake(TRSRTransformation.identity(), DefaultVertexFormats.BLOCK,
-								location -> Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(location.toString())), x * (1 / 3f), y * (1 / 3f), -1 * (1 / 3f), 1 / 3f);
-						allQuads.addAll(model.getQuads(Blocks.BEDROCK.getDefaultState(), side, rand));
+						model = new TSRSBakedMenger(Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes().getModelForState(ContentRegistry.VOID.getDefaultState()), x * (1 / 3f), y * (1 / 3f), -1 * (1 / 3f), 1 / 3f);
+						allQuads.addAll(model.getQuads(ContentRegistry.VOID.getDefaultState(), side, rand));
 						continue;
 					}
 					
@@ -134,14 +117,8 @@ public class ItemBakedMenger implements IPerspectiveAwareModel {
 				for(byte y = -1; y < 2; y++){
 					TSRSBakedMenger model = null;
 					if(x == 0 && y == 0){
-						IModel mod = null;
-						try {
-							mod = ModelLoaderRegistry.getModel(new ResourceLocation(Echo.MODID, "block/void"));
-						} catch (Exception e) {
-						}
-						model = new TSRSBakedMenger(mod.bake(TRSRTransformation.identity(), DefaultVertexFormats.BLOCK,
-								location -> Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(location.toString())), x * (1 / 3f), y * (1 / 3f), 1 * (1 / 3f), 1 / 3f);
-						allQuads.addAll(model.getQuads(Blocks.BEDROCK.getDefaultState(), side, rand));
+						model = new TSRSBakedMenger(Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes().getModelForState(ContentRegistry.VOID.getDefaultState()), x * (1 / 3f), y * (1 / 3f), 1 * (1 / 3f), 1 / 3f);
+						allQuads.addAll(model.getQuads(ContentRegistry.VOID.getDefaultState(), side, rand));
 						continue;
 					}
 					if(this.tier != 1 && this.tier < (byte)6)
@@ -157,14 +134,8 @@ public class ItemBakedMenger implements IPerspectiveAwareModel {
 				for(byte z = -1; z < 2; z++){
 					TSRSBakedMenger model = null;
 					if(x == 0 && z == 0){
-						IModel mod = null;
-						try {
-							mod = ModelLoaderRegistry.getModel(new ResourceLocation(Echo.MODID, "block/void"));
-						} catch (Exception e) {
-						}
-						model = new TSRSBakedMenger(mod.bake(TRSRTransformation.identity(), DefaultVertexFormats.BLOCK,
-								location -> Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(location.toString())), x * (1 / 3f), 1 * (1 / 3f), z * (1 / 3f), 1 / 3f);
-						allQuads.addAll(model.getQuads(Blocks.BEDROCK.getDefaultState(), side, rand));
+						model = new TSRSBakedMenger(Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes().getModelForState(ContentRegistry.VOID.getDefaultState()), x * (1 / 3f), 1 * (1 / 3f), z * (1 / 3f), 1 / 3f);
+						allQuads.addAll(model.getQuads(ContentRegistry.VOID.getDefaultState(), side, rand));
 						continue;
 					}
 					if(this.tier != 1 && this.tier < (byte)6)
@@ -180,14 +151,8 @@ public class ItemBakedMenger implements IPerspectiveAwareModel {
 				for(byte y = -1; y < 2; y++){
 					TSRSBakedMenger model = null;
 					if(z == 0 && y == 0){
-						IModel mod = null;
-						try {
-							mod = ModelLoaderRegistry.getModel(new ResourceLocation(Echo.MODID, "block/void"));
-						} catch (Exception e) {
-						}
-						model = new TSRSBakedMenger(mod.bake(TRSRTransformation.identity(), DefaultVertexFormats.BLOCK,
-								location -> Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(location.toString())), -1 * (1 / 3f), y * (1 / 3f), z * (1 / 3f), 1 / 3f);
-						allQuads.addAll(model.getQuads(Blocks.BEDROCK.getDefaultState(), side, rand));
+						model = new TSRSBakedMenger(Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes().getModelForState(ContentRegistry.VOID.getDefaultState()), -1 * (1 / 3f), y * (1 / 3f), z * (1 / 3f), 1 / 3f);
+						allQuads.addAll(model.getQuads(ContentRegistry.VOID.getDefaultState(), side, rand));
 						continue;
 					}
 					if(this.tier != 1 && this.tier < (byte)6)

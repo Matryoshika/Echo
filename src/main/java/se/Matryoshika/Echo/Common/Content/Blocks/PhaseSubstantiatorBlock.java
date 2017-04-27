@@ -14,6 +14,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import se.Matryoshika.Echo.Echo;
 import se.Matryoshika.Echo.Common.Content.Tile.TilePhaseSubstantiator;
+import se.Matryoshika.Echo.Common.Utils.EchoConstants;
 
 public class PhaseSubstantiatorBlock extends Block{
 
@@ -45,11 +46,7 @@ public class PhaseSubstantiatorBlock extends Block{
 	
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ){
-        if(!world.isRemote){
-        	final TilePhaseSubstantiator tile = (TilePhaseSubstantiator) world.getTileEntity(pos);
-        	if(tile != null)
-        		tile.openGUI(world, player);
-        }
+        player.openGui(Echo.INSTANCE, EchoConstants.GUI_PHASE_SUBSTANTIATOR, world, pos.getX(), pos.getY(), pos.getZ());
         	
 		
 		return true;

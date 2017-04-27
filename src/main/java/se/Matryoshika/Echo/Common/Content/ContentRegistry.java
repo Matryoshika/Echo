@@ -15,11 +15,13 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import se.Matryoshika.Echo.Common.Content.Blocks.*;
+import se.Matryoshika.Echo.Common.Content.Blocks.Void;
 import se.Matryoshika.Echo.Common.Content.Items.*;
 
 @EventBusSubscriber
 public class ContentRegistry {
 	
+	public static Block VOID;
 	public static Block COMPRESSED_BLOCK;
 	public static Block PHASE_SUBSTANTIATOR;
 	public static Block TEMPORAL_DILATOR;
@@ -34,6 +36,7 @@ public class ContentRegistry {
 	public static List<Item> itemList = new ArrayList<Item>();
 	
 	public static void prepareBlocks(){
+		blockList.add(VOID = new Void());
 		blockList.add(COMPRESSED_BLOCK = new CompressedBlock());
 		blockList.add(PHASE_SUBSTANTIATOR = new PhaseSubstantiatorBlock());
 		blockList.add(TEMPORAL_DILATOR = new TemporalDilatorBlock());

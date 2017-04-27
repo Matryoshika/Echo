@@ -1,5 +1,8 @@
 package se.Matryoshika.Echo.Common.Content.Blocks;
 
+import java.util.List;
+import java.util.Random;
+
 import com.google.gson.Gson;
 
 import net.minecraft.block.Block;
@@ -9,10 +12,12 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityFlowerPot;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -25,6 +30,7 @@ import net.minecraftforge.common.property.IUnlistedProperty;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import se.Matryoshika.Echo.Echo;
+import se.Matryoshika.Echo.Common.Content.ContentRegistry;
 import se.Matryoshika.Echo.Common.Content.Tile.TileMenger;
 import se.Matryoshika.Echo.Common.Utils.EchoConstants;
 
@@ -93,6 +99,38 @@ public class CompressedBlock extends Block {
 
 		return stack;
 	}
+	
+	@Override
+    public java.util.List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune){
+        java.util.List<ItemStack> ret = super.getDrops(world, pos, state, fortune);
+        TileMenger te = world.getTileEntity(pos) instanceof TileMenger ? (TileMenger)world.getTileEntity(pos) : null;
+        if (te != null && te.getOriginalState() != null){
+        	for(ItemStack stack : ret){
+        		if(stack != null && stack.getItem() == Item.getItemFromBlock(ContentRegistry.COMPRESSED_BLOCK)){
+        			if(!stack.hasTagCompound())
+        				stack.setTagCompound(new NBTTagCompound());
+        			IExtendedBlockState menger = (IExtendedBlockState) getExtendedState(state, world, pos);
+        			
+        			IBlockState copy = menger.getValue(IBS);
+        			stack.getTagCompound().setTag(EchoConstants.NBT_BLOCKSTATE, NBTUtil.func_190009_a(new NBTTagCompound(), copy));
+        			stack.getTagCompound().setByte(EchoConstants.NBT_TIER, te.getTier());
+        		}
+        	}
+        }
+        return ret;
+    }
+	
+    @Override
+    public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest){
+        if (willHarvest) return true;
+        return super.removedByPlayer(state, world, pos, player, willHarvest);
+    }
+    
+    @Override
+    public void harvestBlock(World world, EntityPlayer player, BlockPos pos, IBlockState state, TileEntity te, ItemStack tool){
+        super.harvestBlock(world, player, pos, state, te, tool);
+        world.setBlockToAir(pos);
+    }
 	
 	@Override
     public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos){
