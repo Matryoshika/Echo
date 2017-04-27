@@ -27,7 +27,6 @@ public class TemporalDilatorBlock extends Block{
 		super(Material.IRON);
 		setRegistryName(Echo.MODID, "temporal_dilator");
 		setUnlocalizedName(getRegistryName().toString());
-		setCreativeTab(Echo.TAB);
 	}
 	
 	public boolean hasTileEntity(IBlockState state) {

@@ -8,7 +8,6 @@ public class LaniaiteFragment extends Item{
 	public LaniaiteFragment(){
 		setRegistryName(Echo.MODID, "laniaite_fragment");
 		setUnlocalizedName(getRegistryName().toString());
-		setCreativeTab(Echo.TAB);
 	}
 
 }

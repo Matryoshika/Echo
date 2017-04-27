@@ -14,7 +14,6 @@ public class LaniaiteFabricator extends Block{
 		super(Material.IRON);
 		setRegistryName(Echo.MODID, "laniaite_fabricator");
 		setUnlocalizedName(getRegistryName().toString());
-		setCreativeTab(Echo.TAB);
 	}
 	
 	@Override

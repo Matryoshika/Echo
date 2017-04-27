@@ -8,7 +8,6 @@ public class LaniaiteChunk extends Item{
 	public LaniaiteChunk(){
 		setRegistryName(Echo.MODID, "laniaite_chunk");
 		setUnlocalizedName(getRegistryName().toString());
-		setCreativeTab(Echo.TAB);
 	}
 
 }

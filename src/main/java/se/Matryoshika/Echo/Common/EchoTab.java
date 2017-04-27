@@ -23,7 +23,7 @@ public class EchoTab extends CreativeTabs{
 	
 	@Override
 	public Item getTabIconItem(){
-		return Item.getItemFromBlock(Blocks.BEDROCK);
+		return Item.getItemFromBlock(ContentRegistry.PHASE_SUBSTANTIATOR);
 	}
 	
 	@Override
@@ -34,6 +34,16 @@ public class EchoTab extends CreativeTabs{
 	@SideOnly(Side.CLIENT)
     public void displayAllRelevantItems(List<ItemStack> items){
         super.displayAllRelevantItems(items);
+        
+        items.add(new ItemStack(ContentRegistry.COMPRESSION_WAND));
+        items.add(new ItemStack(ContentRegistry.LANIAITE_FRAGMENT));
+        items.add(new ItemStack(ContentRegistry.LANIAITE_CHUNK));
+        items.add(new ItemStack(ContentRegistry.LANIAITE_BLOCK));
+        
+        items.add(new ItemStack(ContentRegistry.LANIAITE_FABRICATOR));
+        items.add(new ItemStack(ContentRegistry.PHASE_SUBSTANTIATOR));
+        items.add(new ItemStack(ContentRegistry.TEMPORAL_DILATOR));
+        
         
         for(IBlockState state : BlockStateJSON.getAllowedStates()){
         	

@@ -21,7 +21,6 @@ public class PhaseSubstantiatorBlock extends Block{
 		super(Material.IRON);
 		setRegistryName(Echo.MODID, "phase_substantiator");
 		setUnlocalizedName(getRegistryName().toString());
-		setCreativeTab(Echo.TAB);
 	}
 	
 	@Override

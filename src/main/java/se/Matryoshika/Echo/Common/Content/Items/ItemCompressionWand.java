@@ -34,7 +34,6 @@ public class ItemCompressionWand extends Item{
 		this.setRegistryName(Echo.MODID, "compression_wand");
 		this.setUnlocalizedName(getRegistryName().toString());
 		this.setMaxStackSize(1);
-		this.setCreativeTab(Echo.TAB);
 	}
 	
 	@Override
