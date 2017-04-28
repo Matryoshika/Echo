@@ -35,7 +35,7 @@ public class TileLaniaiteFabricator extends TileEntity implements ITickable{
 	public void update() {
 		tick++;
 		
-		if(tick >= 20*60){
+		if(tick >= 20*60*3){
 			tick = 0;
 			
 			
