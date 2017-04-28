@@ -32,7 +32,7 @@ public class MultiblockFormation {
 		else if(isMiddle(world, pos, state)){
 			for(EnumFacing facing : EnumFacing.values()){
 				if(isCorner(world, pos.offset(facing), state)){
-					BlockPos opposite = getOppositeCorner(world, pos, state);
+					BlockPos opposite = getOppositeCorner(world, pos.offset(facing), state);
 					if(opposite != null){
 						int dx = (opposite.getX() - pos.getX()) / 2;
 						int dy = (opposite.getY() - pos.getY()) / 2;
