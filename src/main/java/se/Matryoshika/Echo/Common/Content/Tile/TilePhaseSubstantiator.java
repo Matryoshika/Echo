@@ -6,6 +6,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTUtil;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
@@ -110,5 +112,42 @@ public class TilePhaseSubstantiator extends TileEntity implements ITickable{
 		return super.getCapability(capability, facing);
 	}
 
+	
+	@Override
+	public SPacketUpdateTileEntity getUpdatePacket() {
+		return new SPacketUpdateTileEntity(this.pos, 3, this.getUpdateTag());
+	}
+
+	@Override
+	public NBTTagCompound getUpdateTag() {
+		return this.writeToNBT(new NBTTagCompound());
+	}
+	
+	@Override
+	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
+		super.onDataPacket(net, pkt);
+		handleUpdateTag(pkt.getNbtCompound());
+	}
+	
+	@Override
+	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+		super.writeToNBT(compound);
+		compound.setTag(EchoConstants.NBT_PHASE_INPUT, inputSlots.serializeNBT());
+		compound.setTag(EchoConstants.NBT_PHASE_OUTPUT, outputSlots.serializeNBT());
+		return compound;
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound compound) {
+		super.readFromNBT(compound);
+		if(inputSlots == null) {
+			inputSlots = new ItemStackHandler(20);
+			outputSlots = new ItemStackHandler(6);
+		}
+		if(compound.hasKey(EchoConstants.NBT_PHASE_INPUT)) {
+			inputSlots.deserializeNBT((NBTTagCompound) compound.getTag(EchoConstants.NBT_PHASE_INPUT));
+			outputSlots.deserializeNBT((NBTTagCompound) compound.getTag(EchoConstants.NBT_PHASE_OUTPUT));
+		}
+	}
 
 }
