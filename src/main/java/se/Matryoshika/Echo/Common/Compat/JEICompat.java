@@ -40,7 +40,6 @@ public class JEICompat implements IModPlugin{
 
 	@Override
 	public void registerIngredients(IModIngredientRegistration registry) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -54,6 +53,10 @@ public class JEICompat implements IModPlugin{
 		
 		
 		helper.getIngredientBlacklist().addIngredientToBlacklist(new ItemStack(ContentRegistry.VOID));
+		
+		ItemStack basic = new ItemStack(ContentRegistry.COMPRESSED_BLOCK);
+		basic.setTagCompound(new NBTTagCompound());
+		helper.getIngredientBlacklist().addIngredientToBlacklist(basic);
 		
 		List<ItemStack> unhiders = new ArrayList<ItemStack>();
 		for(IBlockState state : BlockStateJSON.getAllowedStates()){
@@ -72,8 +75,6 @@ public class JEICompat implements IModPlugin{
 		for(ItemStack stack : unhiders)
 			helper.getIngredientBlacklist().removeIngredientFromBlacklist(stack);
 	
-		ItemStack basic = new ItemStack(ContentRegistry.COMPRESSED_BLOCK);
-		helper.getIngredientBlacklist().addIngredientToBlacklist(basic);
 		
 		
 	}
