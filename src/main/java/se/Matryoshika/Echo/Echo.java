@@ -23,6 +23,7 @@ import se.Matryoshika.Echo.Client.GUI.GUIHandler;
 import se.Matryoshika.Echo.Common.BlockStateGetter;
 import se.Matryoshika.Echo.Common.CommonProxy;
 import se.Matryoshika.Echo.Common.EchoTab;
+import se.Matryoshika.Echo.Common.Content.Recipes.RecipeHandler;
 import se.Matryoshika.Echo.Common.Content.Tile.TileLaniaiteFabricator;
 import se.Matryoshika.Echo.Common.Content.Tile.TileMenger;
 import se.Matryoshika.Echo.Common.Content.Tile.TilePhaseSubstantiator;
@@ -30,7 +31,6 @@ import se.Matryoshika.Echo.Common.Content.Tile.TileTemporalDilation;
 import se.Matryoshika.Echo.Common.Packets.EchoPacketHandler;
 import se.Matryoshika.Echo.Common.Utils.BlockStateJSON;
 import se.Matryoshika.Echo.Common.Utils.MRLSuggestion;
-import se.Matryoshika.Echo.Common.Utils.RecipeHandler;
 
 @Mod(
 	modid = Echo.MODID, 
