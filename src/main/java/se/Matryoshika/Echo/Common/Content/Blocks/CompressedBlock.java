@@ -1,8 +1,5 @@
 package se.Matryoshika.Echo.Common.Content.Blocks;
 
-import java.util.List;
-import java.util.Random;
-
 import com.google.gson.Gson;
 
 import net.minecraft.block.Block;
@@ -35,11 +32,13 @@ import se.Matryoshika.Echo.Common.Content.Tile.TileMenger;
 import se.Matryoshika.Echo.Common.Utils.EchoConstants;
 
 public class CompressedBlock extends Block {
-	
+
 	public CompressedBlock() {
 		super(Material.ROCK);
 		this.setRegistryName(Echo.MODID, "compressed_block");
 		this.setUnlocalizedName(getRegistryName().toString());
+		this.setHardness(3F);
+		
 	}
 
 	public boolean hasTileEntity(IBlockState state) {
@@ -47,12 +46,14 @@ public class CompressedBlock extends Block {
 	}
 
 	@Override
-	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer,ItemStack stack) {
-		
-		((TileMenger)world.getTileEntity(pos)).update(stack.getTagCompound().getByte(EchoConstants.NBT_TIER), NBTUtil.func_190008_d(stack.getTagCompound().getCompoundTag(EchoConstants.NBT_BLOCKSTATE)));
-		((TileMenger)world.getTileEntity(pos)).markDirty();
+	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer,
+			ItemStack stack) {
+
+		((TileMenger) world.getTileEntity(pos)).update(stack.getTagCompound().getByte(EchoConstants.NBT_TIER),
+				NBTUtil.func_190008_d(stack.getTagCompound().getCompoundTag(EchoConstants.NBT_BLOCKSTATE)));
+		((TileMenger) world.getTileEntity(pos)).markDirty();
 	}
-	
+
 	@Override
 	public TileEntity createTileEntity(World world, IBlockState state) {
 		return new TileMenger();
@@ -80,45 +81,45 @@ public class CompressedBlock extends Block {
 	}
 
 	@Override
-	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos,EntityPlayer player) {
-		return getPickBlock(super.getPickBlock(state, target, world, pos, player),(TileMenger) world.getTileEntity(pos), world, pos, state);
+	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos,
+			EntityPlayer player) {
+		return getPickBlock(super.getPickBlock(state, target, world, pos, player),
+				(TileMenger) world.getTileEntity(pos), world, pos, state);
 	}
 
 	public ItemStack getPickBlock(ItemStack stack, TileMenger te, World world, BlockPos pos, IBlockState state) {
 		if (te != null && te.getOriginalState() != null) {
-			if(!stack.hasTagCompound())
+			if (!stack.hasTagCompound())
 				stack.setTagCompound(new NBTTagCompound());
 			IExtendedBlockState menger = (IExtendedBlockState) getExtendedState(state, world, pos);
-			
+
 			IBlockState copy = menger.getValue(IBS);
-			stack.getTagCompound().setTag(EchoConstants.NBT_BLOCKSTATE, NBTUtil.func_190009_a(new NBTTagCompound(), copy));
+			stack.getTagCompound().setTag(EchoConstants.NBT_BLOCKSTATE,NBTUtil.func_190009_a(new NBTTagCompound(), copy));
 			stack.getTagCompound().setByte(EchoConstants.NBT_TIER, te.getTier());
 		}
-		else
-			System.out.println("TE is null");
-
+		
 		return stack;
 	}
 	
 	@Override
-    public java.util.List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune){
-        java.util.List<ItemStack> ret = super.getDrops(world, pos, state, fortune);
-        TileMenger te = world.getTileEntity(pos) instanceof TileMenger ? (TileMenger)world.getTileEntity(pos) : null;
-        if (te != null && te.getOriginalState() != null){
-        	for(ItemStack stack : ret){
-        		if(stack != null && stack.getItem() == Item.getItemFromBlock(ContentRegistry.COMPRESSED_BLOCK)){
-        			if(!stack.hasTagCompound())
-        				stack.setTagCompound(new NBTTagCompound());
-        			IExtendedBlockState menger = (IExtendedBlockState) getExtendedState(state, world, pos);
-        			
-        			IBlockState copy = menger.getValue(IBS);
-        			stack.getTagCompound().setTag(EchoConstants.NBT_BLOCKSTATE, NBTUtil.func_190009_a(new NBTTagCompound(), copy));
-        			stack.getTagCompound().setByte(EchoConstants.NBT_TIER, te.getTier());
-        		}
-        	}
-        }
-        return ret;
-    }
+	public java.util.List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
+		java.util.List<ItemStack> ret = super.getDrops(world, pos, state, fortune);
+		TileMenger te = world.getTileEntity(pos) instanceof TileMenger ? (TileMenger) world.getTileEntity(pos) : null;
+		if (te != null && te.getOriginalState() != null) {
+			for (ItemStack stack : ret) {
+				if (stack != null && stack.getItem() == Item.getItemFromBlock(ContentRegistry.COMPRESSED_BLOCK)) {
+					if (!stack.hasTagCompound())
+						stack.setTagCompound(new NBTTagCompound());
+					IExtendedBlockState menger = (IExtendedBlockState) getExtendedState(state, world, pos);
+
+					IBlockState copy = menger.getValue(IBS);
+					stack.getTagCompound().setTag(EchoConstants.NBT_BLOCKSTATE,NBTUtil.func_190009_a(new NBTTagCompound(), copy));
+					stack.getTagCompound().setByte(EchoConstants.NBT_TIER, te.getTier());
+				}
+			}
+		}
+		return ret;
+	}
 	
     @Override
     public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest){
@@ -131,72 +132,54 @@ public class CompressedBlock extends Block {
         super.harvestBlock(world, player, pos, state, te, tool);
         world.setBlockToAir(pos);
     }
+
 	
+
 	@Override
-    public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos){
-        if(state instanceof IExtendedBlockState && world.getTileEntity(pos) instanceof TileMenger) {
-            return ((IExtendedBlockState)state).withProperty(IBS, ((TileMenger)world.getTileEntity(pos)).getOriginalState()).withProperty(BIT, ((TileMenger)world.getTileEntity(pos)).getTier());
-        }
-        return state;
-    }
-	
+	public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
+		if (state instanceof IExtendedBlockState && world.getTileEntity(pos) instanceof TileMenger) {
+			return ((IExtendedBlockState) state)
+					.withProperty(IBS, ((TileMenger) world.getTileEntity(pos)).getOriginalState())
+					.withProperty(BIT, ((TileMenger) world.getTileEntity(pos)).getTier());
+		}
+		return state;
+	}
+
 	@Override
-    protected BlockStateContainer createBlockState(){
-        return new ExtendedBlockState(this, new IProperty[] {}, new IUnlistedProperty[]{ IBS, BIT });
-    }
-	
-	public BlockStateContainer getBSC(){
+	protected BlockStateContainer createBlockState() {
+		return new ExtendedBlockState(this, new IProperty[] {}, new IUnlistedProperty[] { IBS, BIT });
+	}
+
+	public BlockStateContainer getBSC() {
 		return createBlockState();
 	}
-	
-	@SideOnly(Side.CLIENT)
-    public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side){
-        return true;
-    }
-	
-	
+
 	public static final IUnlistedProperty<IBlockState> IBS = new IUnlistedProperty<IBlockState>() {
-        @Override
-        public String getName() {
-            return "echo:blockstate_property";
-        }
-        
-        @Override
-        public boolean isValid(IBlockState value) {
-            return true;
-        }
-        
-        @Override
-        public Class<IBlockState> getType() {
-            return IBlockState.class;
-        }
-        
-        @Override
-        public String valueToString(IBlockState value) {
-            return new Gson().toJson(NBTUtil.func_190009_a(new NBTTagCompound(), value));
-        }
+		@Override
+		public String getName() {return "echo:blockstate_property";}
+
+		@Override
+		public boolean isValid(IBlockState value) {return true;}
+
+		@Override
+		public Class<IBlockState> getType() {return IBlockState.class;}
+
+		@Override
+		public String valueToString(IBlockState value) {return new Gson().toJson(NBTUtil.func_190009_a(new NBTTagCompound(), value));}
 	};
-	
+
 	public static final IUnlistedProperty<Byte> BIT = new IUnlistedProperty<Byte>() {
-        @Override
-        public String getName() {
-            return "echo:blockstate_byte";
-        }
-        
-        @Override
-        public boolean isValid(Byte value) {
-            return true;
-        }
-        
-        @Override
-        public Class<Byte> getType() {
-            return Byte.class;
-        }
-        
-        @Override
-        public String valueToString(Byte value) {
-            return value.toString();
-        }
+		@Override
+		public String getName() {return "echo:blockstate_byte";}
+
+		@Override
+		public boolean isValid(Byte value) {return true;}
+
+		@Override
+		public Class<Byte> getType() {return Byte.class;}
+
+		@Override
+		public String valueToString(Byte value) {return value.toString();}
 	};
-	
+
 }
