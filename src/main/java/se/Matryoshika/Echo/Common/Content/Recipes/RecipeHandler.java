@@ -1,5 +1,6 @@
-package se.Matryoshika.Echo.Common.Utils;
+package se.Matryoshika.Echo.Common.Content.Recipes;
 
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import se.Matryoshika.Echo.Common.Content.ContentRegistry;
@@ -26,6 +27,15 @@ public class RecipeHandler {
 				new ItemStack(ContentRegistry.LANIAITE_BLOCK)
 				);
 		
+		GameRegistry.addShapedRecipe(new ItemStack(ContentRegistry.COMPRESSION_WAND), 
+				" F ",
+				"FSF",
+				"TF ",
+				'F', ContentRegistry.LANIAITE_FRAGMENT,
+				'S', Items.NETHER_STAR,
+				'T', Items.STICK
+				);
+		
 		
 		//##################################################################
 		//Blocks
@@ -36,6 +46,10 @@ public class RecipeHandler {
 				"CCC",
 				'C', ContentRegistry.LANIAITE_CHUNK
 				);
+		
+		GameRegistry.addRecipe(new IRecipePhaseSubstantiator());
+		
+		GameRegistry.addRecipe(new IRecipeLaniaiteFabricator());
 		
 	}
 
