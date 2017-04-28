@@ -3,20 +3,21 @@ package se.Matryoshika.Echo.Common.Content;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.common.base.Enums;
-
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent.Register;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import se.Matryoshika.Echo.Common.Content.Blocks.*;
+import se.Matryoshika.Echo.Common.Content.Blocks.CompressedBlock;
+import se.Matryoshika.Echo.Common.Content.Blocks.LaniaiteBlock;
+import se.Matryoshika.Echo.Common.Content.Blocks.LaniaiteFabricator;
+import se.Matryoshika.Echo.Common.Content.Blocks.PhaseSubstantiatorBlock;
+import se.Matryoshika.Echo.Common.Content.Blocks.TemporalDilatorBlock;
 import se.Matryoshika.Echo.Common.Content.Blocks.Void;
-import se.Matryoshika.Echo.Common.Content.Items.*;
+import se.Matryoshika.Echo.Common.Content.Items.ItemCompressionWand;
+import se.Matryoshika.Echo.Common.Content.Items.LaniaiteChunk;
+import se.Matryoshika.Echo.Common.Content.Items.LaniaiteFragment;
 
 @EventBusSubscriber
 public class ContentRegistry {
