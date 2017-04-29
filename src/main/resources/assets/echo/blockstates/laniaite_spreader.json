@@ -1,0 +1,16 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "block/cube_all",
+        "uvlock": false
+    },
+    "variants": {
+        "normal": { "model": "echo:spreader" },
+        "variant=mana": { "model": "echo:spreader" },
+        "variant=elven": { "model": "echo:spreader" },
+        "variant=gaia": { "model": "echo:spreader" },
+        "variant=redstone": { "model": "echo:spreader" },
+        "inventory": {"model": "echo:spreader"}
+    }
+}  
+ 
