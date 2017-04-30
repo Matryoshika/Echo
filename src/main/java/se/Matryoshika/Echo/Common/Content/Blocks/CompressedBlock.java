@@ -1,5 +1,7 @@
 package se.Matryoshika.Echo.Common.Content.Blocks;
 
+import java.util.List;
+
 import com.google.gson.Gson;
 
 import net.minecraft.block.Block;
@@ -7,6 +9,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -29,6 +32,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import se.Matryoshika.Echo.Echo;
 import se.Matryoshika.Echo.Common.Content.ContentRegistry;
 import se.Matryoshika.Echo.Common.Content.Tile.TileMenger;
+import se.Matryoshika.Echo.Common.Utils.BlockStateJSON;
 import se.Matryoshika.Echo.Common.Utils.EchoConstants;
 
 public class CompressedBlock extends Block {
@@ -40,6 +44,23 @@ public class CompressedBlock extends Block {
 		this.setHardness(3F);
 		
 	}
+	
+	@Override
+	public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list){
+		
+		for (IBlockState state : BlockStateJSON.getAllowedStates()) {
+
+			for (byte i = 1; i <= BlockStateJSON.getTiers(state); i++) {
+				ItemStack stack = new ItemStack(ContentRegistry.COMPRESSED_BLOCK);
+				NBTTagCompound nbt = new NBTTagCompound();
+				nbt.setTag(EchoConstants.NBT_BLOCKSTATE, NBTUtil.func_190009_a(new NBTTagCompound(), state));
+				nbt.setByte(EchoConstants.NBT_TIER, i);
+				stack.setTagCompound(nbt);
+				list.add(stack);
+			}
+
+		}
+    }
 
 	public boolean hasTileEntity(IBlockState state) {
 		return true;
