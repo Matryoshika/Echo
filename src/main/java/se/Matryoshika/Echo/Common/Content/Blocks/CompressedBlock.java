@@ -171,10 +171,6 @@ public class CompressedBlock extends Block {
 		return new ExtendedBlockState(this, new IProperty[] {}, new IUnlistedProperty[] { IBS, BIT });
 	}
 
-	public BlockStateContainer getBSC() {
-		return createBlockState();
-	}
-
 	public static final IUnlistedProperty<IBlockState> IBS = new IUnlistedProperty<IBlockState>() {
 		@Override
 		public String getName() {return "echo:blockstate_property";}
