@@ -13,7 +13,7 @@
 hs_err_pid*
 
 #Linux
-/.directory
+*.directory
 
 #gradle
 /.gradle
@@ -31,3 +31,6 @@ hs_err_pid*
 /bin
 
 *.launch
+
+#Krita
+*.kra
