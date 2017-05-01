@@ -24,6 +24,7 @@ import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTUtil;
+import net.minecraftforge.fml.common.Loader;
 import se.Matryoshika.Echo.Echo;
 import se.Matryoshika.Echo.Common.BlockStateGetter;
 
@@ -67,6 +68,14 @@ public class BlockStateJSON {
 		default_states.put("{Name:\"minecraft:nether_wart_block\"}", (byte)4);
 		default_states.put("{Name:\"minecraft:obsidian\"}", (byte)4);
 		default_states.put("{Properties:{explode:\"false\"},Name:\"minecraft:tnt\"}", (byte)3);
+		
+		if(Loader.isModLoaded("Botania")){
+			default_states.put("{Properties:{variant:\"default\"},Name:\"botania:livingwood\"}", (byte) 4);
+			default_states.put("{Properties:{variant:\"default\"},Name:\"botania:livingrock\"}",(byte) 4);
+			default_states.put("{Properties:{variant:\"manasteel\"},Name:\"botania:storage\"}",(byte) 4);
+			default_states.put("{Properties:{variant:\"elementium\"},Name:\"botania:storage\"}",(byte) 4);
+			default_states.put("{Properties:{variant:\"terrasteel\"},Name:\"botania:storage\"}",(byte) 3);
+		}
 		
 		try {
 			if(blockStates.createNewFile())
