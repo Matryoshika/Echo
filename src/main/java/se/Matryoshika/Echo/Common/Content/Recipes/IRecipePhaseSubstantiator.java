@@ -9,10 +9,16 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.world.World;
+import net.minecraftforge.oredict.RecipeSorter;
+import se.Matryoshika.Echo.Echo;
 import se.Matryoshika.Echo.Common.Content.ContentRegistry;
 import se.Matryoshika.Echo.Common.Utils.EchoConstants;
 
 public class IRecipePhaseSubstantiator implements IRecipe{
+	
+	public IRecipePhaseSubstantiator(){
+		RecipeSorter.register(Echo.MODID + ":phase_substantiator", getClass(), RecipeSorter.Category.SHAPED, "after:minecraft:shaped");
+	}
 
 	@Override
 	public boolean matches(InventoryCrafting inv, World world) {

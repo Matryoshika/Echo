@@ -1,66 +1,61 @@
-package se.Matryoshika.Echo.Common.Compat.JEI.PhaseSubstantiator;
+package se.Matryoshika.Echo.Common.Compat.JEI;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.collect.ImmutableList;
 
 import mezz.jei.api.ingredients.IIngredients;
-import mezz.jei.api.recipe.IRecipeWrapper;
 import mezz.jei.api.recipe.IStackHelper;
 import mezz.jei.api.recipe.wrapper.IShapedCraftingRecipeWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraftforge.fluids.FluidStack;
 import scala.actors.threadpool.Arrays;
-import se.Matryoshika.Echo.Common.Compat.JEICompat;
 import se.Matryoshika.Echo.Common.Content.ContentRegistry;
 import se.Matryoshika.Echo.Common.Utils.EchoConstants;
 
-public class PhaseSubstantiatorWrapper implements IShapedCraftingRecipeWrapper{
+public class LaniaiteFabricatorWrapper implements IShapedCraftingRecipeWrapper{
 	
 	private List<List<ItemStack>> input;
 	private ItemStack output;
 	
-	public PhaseSubstantiatorWrapper(IRecipe recipe){
+	public LaniaiteFabricatorWrapper(IRecipe recipe){
 		IStackHelper helper = JEICompat.helper.getStackHelper();
 		input = helper.expandRecipeItemStackInputs(getInputs());
-		output = new ItemStack(ContentRegistry.PHASE_SUBSTANTIATOR);
+		output = new ItemStack(ContentRegistry.LANIAITE_FABRICATOR);
+	}
+
+	@Override
+	public List getInputs() {
+		ItemStack star = new ItemStack(Items.NETHER_STAR);
+		ItemStack frag = new ItemStack(ContentRegistry.LANIAITE_FRAGMENT);
+		ItemStack obs = new ItemStack(ContentRegistry.COMPRESSED_BLOCK);
+		obs.setTagCompound(new NBTTagCompound());
+		obs.getTagCompound().setTag(EchoConstants.NBT_BLOCKSTATE,NBTUtil.func_190009_a(new NBTTagCompound(), Blocks.OBSIDIAN.getDefaultState()));
+		obs.getTagCompound().setByte(EchoConstants.NBT_TIER, (byte) 3);
+		
+		
+		return Arrays.asList(new ItemStack[]{
+				star, frag, star,
+				frag, obs, frag,
+				star, frag, star
+		});
+	}
+
+	@Override
+	public List<ItemStack> getOutputs() {
+		return Arrays.asList(new ItemStack[]{new ItemStack(ContentRegistry.LANIAITE_FABRICATOR)});
 	}
 
 	@Override
 	public void getIngredients(IIngredients ingredients) {
 		ingredients.setInputLists(ItemStack.class, input);
 		ingredients.setOutput(ItemStack.class, output);
-		
-	}
-
-	@Override
-	public List getInputs() {
-		ItemStack diamond = new ItemStack(ContentRegistry.COMPRESSED_BLOCK);
-		ItemStack obsidian = new ItemStack(ContentRegistry.COMPRESSED_BLOCK);
-		diamond.setTagCompound(new NBTTagCompound());
-		obsidian.setTagCompound(new NBTTagCompound());
-		diamond.getTagCompound().setTag(EchoConstants.NBT_BLOCKSTATE,NBTUtil.func_190009_a(new NBTTagCompound(), Blocks.DIAMOND_BLOCK.getDefaultState()));
-		diamond.getTagCompound().setByte(EchoConstants.NBT_TIER, (byte) 2);
-		obsidian.getTagCompound().setTag(EchoConstants.NBT_BLOCKSTATE,NBTUtil.func_190009_a(new NBTTagCompound(), Blocks.OBSIDIAN.getDefaultState()));
-		obsidian.getTagCompound().setByte(EchoConstants.NBT_TIER, (byte) 2);
-		ItemStack laniaite = new ItemStack(ContentRegistry.LANIAITE_BLOCK);
-		
-		return Arrays.asList(new ItemStack[]{
-				obsidian, diamond, obsidian,
-				diamond, laniaite, diamond,
-				obsidian, diamond, obsidian
-		});
-	}
-
-	@Override
-	public List getOutputs() {
-		return Arrays.asList(new ItemStack[]{new ItemStack(ContentRegistry.PHASE_SUBSTANTIATOR)});
 	}
 
 	@Override
@@ -75,7 +70,6 @@ public class PhaseSubstantiatorWrapper implements IShapedCraftingRecipeWrapper{
 
 	@Override
 	public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
-		// TODO Auto-generated method stub
 		
 	}
 

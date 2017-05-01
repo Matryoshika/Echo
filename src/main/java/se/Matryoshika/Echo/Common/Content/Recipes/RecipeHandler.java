@@ -2,7 +2,10 @@ package se.Matryoshika.Echo.Common.Content.Recipes;
 
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.RecipeSorter;
+import se.Matryoshika.Echo.Common.Compat.Botania.BotaniaCompat;
 import se.Matryoshika.Echo.Common.Content.ContentRegistry;
 
 public class RecipeHandler {
@@ -50,6 +53,11 @@ public class RecipeHandler {
 		GameRegistry.addRecipe(new IRecipePhaseSubstantiator());
 		
 		GameRegistry.addRecipe(new IRecipeLaniaiteFabricator());
+		
+		if(BotaniaCompat.LANIAITE_POOL != null)
+			GameRegistry.addRecipe(new IRecipeLaniaitePool());
+		if(BotaniaCompat.LANIAITE_SPREADER != null)
+			GameRegistry.addRecipe(new IRecipeLaniaiteSpreader());
 		
 	}
 
