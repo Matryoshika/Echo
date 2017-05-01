@@ -8,7 +8,9 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTUtil;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLLog;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -23,6 +25,7 @@ import se.Matryoshika.Echo.Client.GUI.GUIHandler;
 import se.Matryoshika.Echo.Common.BlockStateGetter;
 import se.Matryoshika.Echo.Common.CommonProxy;
 import se.Matryoshika.Echo.Common.EchoTab;
+import se.Matryoshika.Echo.Common.LootTables;
 import se.Matryoshika.Echo.Common.Content.Recipes.RecipeHandler;
 import se.Matryoshika.Echo.Common.Content.Tile.TileLaniaiteFabricator;
 import se.Matryoshika.Echo.Common.Content.Tile.TileMenger;
@@ -67,7 +70,9 @@ public class Echo{
     	GameRegistry.registerTileEntity(TilePhaseSubstantiator.class, "echo:phase_substantiator");
     	GameRegistry.registerTileEntity(TileTemporalDilation.class, "echo:temporal_dilator");
     	GameRegistry.registerTileEntity(TileLaniaiteFabricator.class, "echo:laniaite_fabricator");
+    	
     	EchoPacketHandler.registerEchoPacketHandler();
+    	
     	
     	proxy.preInit(event);
     }
@@ -83,6 +88,9 @@ public class Echo{
     	proxy.init(event);
     	
     	RecipeHandler.init();
+    	
+    	MinecraftForge.EVENT_BUS.register(new LootTables());
+    	MinecraftForge.EVENT_BUS.register(new se.Matryoshika.Echo.Common.Events.EventHandler());
     	
     	
     }
