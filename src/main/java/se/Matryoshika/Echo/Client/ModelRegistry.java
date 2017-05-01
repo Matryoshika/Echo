@@ -17,6 +17,7 @@ import se.Matryoshika.Echo.Echo;
 import se.Matryoshika.Echo.Client.Models.EchoModelLoader;
 import se.Matryoshika.Echo.Client.Models.TESRTemporalDilation;
 import se.Matryoshika.Echo.Client.Models.MengerTiers.BakedMengerOneModel;
+import se.Matryoshika.Echo.Common.Compat.Botania.BotaniaCompat;
 import se.Matryoshika.Echo.Common.Content.ContentRegistry;
 import se.Matryoshika.Echo.Common.Content.Tile.TileTemporalDilation;
 
@@ -45,6 +46,12 @@ public class ModelRegistry {
 			ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileTemporalDilation.class, new TESRTemporalDilation());
+		
+		if(BotaniaCompat.LANIAITE_POOL != null)
+			Echo.proxy.registerCompatTESR("manapool");
+		
+		if(BotaniaCompat.LANIAITE_SPREADER != null)
+			Echo.proxy.registerCompatTESR("spreader");
 		
 	}
 

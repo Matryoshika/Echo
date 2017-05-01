@@ -7,8 +7,10 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.event.RegistryEvent.Register;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import se.Matryoshika.Echo.Common.Compat.Botania.BotaniaCompat;
 import se.Matryoshika.Echo.Common.Content.Blocks.CompressedBlock;
 import se.Matryoshika.Echo.Common.Content.Blocks.LaniaiteBlock;
 import se.Matryoshika.Echo.Common.Content.Blocks.LaniaiteFabricator;
@@ -43,6 +45,11 @@ public class ContentRegistry {
 		blockList.add(TEMPORAL_DILATOR = new TemporalDilatorBlock());
 		blockList.add(LANIAITE_FABRICATOR = new LaniaiteFabricator());
 		blockList.add(LANIAITE_BLOCK = new LaniaiteBlock());
+		
+		if(Loader.isModLoaded("Botania")){
+			for(Block block : BotaniaCompat.init())
+				blockList.add(block);
+		}
 	}
 	
 	public static void prepareItems(){

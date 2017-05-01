@@ -20,5 +20,7 @@ public class CommonProxy {
 	
 	
 	public void postInit(){}
+	
+	public void registerCompatTESR(String type){}
 
 }

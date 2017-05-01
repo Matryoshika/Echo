@@ -11,6 +11,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import se.Matryoshika.Echo.Common.Compat.Botania.BotaniaCompat;
 import se.Matryoshika.Echo.Common.Content.ContentRegistry;
 import se.Matryoshika.Echo.Common.Utils.BlockStateJSON;
 import se.Matryoshika.Echo.Common.Utils.EchoConstants;
@@ -44,6 +45,11 @@ public class EchoTab extends CreativeTabs{
         items.add(new ItemStack(ContentRegistry.PHASE_SUBSTANTIATOR));
         items.add(new ItemStack(ContentRegistry.TEMPORAL_DILATOR));
         
+        
+        if(BotaniaCompat.LANIAITE_POOL != null)
+        	items.add(new ItemStack(BotaniaCompat.LANIAITE_POOL));
+        if(BotaniaCompat.LANIAITE_SPREADER != null)
+        	items.add(new ItemStack(BotaniaCompat.LANIAITE_SPREADER));
         
         for(IBlockState state : BlockStateJSON.getAllowedStates()){
         	

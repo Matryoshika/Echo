@@ -154,6 +154,16 @@ public class CompressedBlock extends Block {
         world.setBlockToAir(pos);
     }
 
+    
+    public void spawnNewMenger(World world, BlockPos pos, IBlockState state){
+    	IExtendedBlockState ext = (IExtendedBlockState) getExtendedState(state, world, pos);
+		IBlockState copy = ext.getValue(CompressedBlock.IBS);
+		byte tier = ext.getValue(CompressedBlock.BIT);
+		
+		world.createExplosion(null, pos.getX()+1.5, pos.getY()+1.5, pos.getZ()+1.5, 0, true);
+		world.setBlockState(pos.add(1, 1, 1), ContentRegistry.COMPRESSED_BLOCK.getDefaultState());
+		world.setTileEntity(pos.add(1, 1, 1), new TileMenger(copy, (byte) (tier+1)));
+    }
 	
 
 	@Override
