@@ -5,16 +5,25 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.item.ItemMonsterPlacer;
 import se.Matryoshika.Echo.Common.Content.Tile.TileTemporalDilation;
 
 public class TESRTemporalDilation extends TileEntitySpecialRenderer<TileTemporalDilation>{
 	
+	EntityLiving entity;
+	
 	public void renderTileEntityAt(TileTemporalDilation te, double x, double y, double z, float partialTicks, int destroyStage){
-		if(te.entityHolder == null)
+		if(te.entityClass == null)
 			return;
 		
-		Entity entity = EntityList.createEntityByIDFromName(ItemMonsterPlacer.getEntityIdFromItem(te.entityHolder), te.getWorld());
+		if((entity != null && entity.getClass() != te.entityClass) || entity == null)
+			entity = te.getEntity(te.getWorld());
+		
+		if(entity == null)
+			return;
+
+		
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(x+0.5, y+0.20, z+0.5);
 		GlStateManager.scale(0.3, 0.3, 0.3);

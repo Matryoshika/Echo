@@ -55,7 +55,7 @@ public class TemporalDilatorBlock extends Block{
     			TileTemporalDilation tile = (TileTemporalDilation) world.getTileEntity(pos);
     			Entity entity = EntityList.createEntityByIDFromName(ItemMonsterPlacer.getEntityIdFromItem(stack), world);
     			if(entity instanceof EntityLiving){
-    				tile.setEntity(stack);
+    				tile.setEntity((EntityLiving) entity);
     			}
     			
     		}
