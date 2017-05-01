@@ -4,11 +4,9 @@
 newmtl Material.002
 Ka 1.000000 1.000000 1.000000
 Kd 0.640000 0.640000 0.640000
-Ks 0.500000 0.500000 0.500000
 map_Kd echo:blocks/laniaite_block
 
 newmtl None.001
 Ka 0.000000 0.000000 0.000000
 Kd 0.800000 0.800000 0.800000
-Ks 0.800000 0.800000 0.800000
 map_Kd echo:blocks/laniaite_block
