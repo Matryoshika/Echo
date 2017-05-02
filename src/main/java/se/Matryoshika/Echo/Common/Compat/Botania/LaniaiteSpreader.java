@@ -22,6 +22,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.Optional;
 import se.Matryoshika.Echo.Echo;
 import vazkii.botania.api.lexicon.ILexiconable;
 import vazkii.botania.api.lexicon.LexiconEntry;
@@ -36,6 +37,12 @@ import vazkii.botania.common.core.helper.InventoryHelper;
 import vazkii.botania.common.item.ModItems;
 import vazkii.botania.common.lexicon.LexiconData;
 
+@Optional.InterfaceList({
+	@Optional.Interface(modid = "botania", iface = "vazkii.botania.api.wand.IWandHUD", striprefs = true),
+	@Optional.Interface(modid = "botania", iface = "vazkii.botania.api.wand.IWandable", striprefs = true),
+	@Optional.Interface(modid = "botania", iface = "vazkii.botania.api.lexicon.ILexiconable", striprefs = true),
+	@Optional.Interface(modid = "botania", iface = "vazkii.botania.api.wand.IWireframeAABBProvider", striprefs = true)
+})
 public class LaniaiteSpreader extends Block implements IWandable, IWandHUD, ILexiconable, IWireframeAABBProvider {
 
 	public LaniaiteSpreader() {

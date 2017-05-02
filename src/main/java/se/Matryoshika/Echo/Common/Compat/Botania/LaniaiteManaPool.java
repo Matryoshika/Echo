@@ -28,6 +28,7 @@ import net.minecraft.world.ChunkCache;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
+import net.minecraftforge.fml.common.Optional;
 import se.Matryoshika.Echo.Echo;
 import vazkii.botania.api.BotaniaAPI;
 import vazkii.botania.api.internal.VanillaPacketDispatcher;
@@ -43,6 +44,12 @@ import vazkii.botania.common.block.mana.BlockPool;
 import vazkii.botania.common.block.tile.mana.TilePool;
 import vazkii.botania.common.lexicon.LexiconData;
 
+@Optional.InterfaceList({
+	@Optional.Interface(modid = "botania", iface = "vazkii.botania.api.wand.IWandHUD", striprefs = true),
+	@Optional.Interface(modid = "botania", iface = "vazkii.botania.api.wand.IWandable", striprefs = true),
+	@Optional.Interface(modid = "botania", iface = "vazkii.botania.api.lexicon.ILexiconable", striprefs = true),
+	@Optional.Interface(modid = "botania", iface = "vazkii.botania.common.achievement.ICraftAchievement", striprefs = true)
+})
 public class LaniaiteManaPool extends Block implements IWandHUD, IWandable, ILexiconable, ICraftAchievement{
 
 	public LaniaiteManaPool() {
