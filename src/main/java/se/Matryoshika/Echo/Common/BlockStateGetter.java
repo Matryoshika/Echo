@@ -1,6 +1,7 @@
 package se.Matryoshika.Echo.Common;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -22,13 +23,10 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
-import scala.actors.threadpool.Arrays;
 import se.Matryoshika.Echo.Common.Content.ContentRegistry;
 import se.Matryoshika.Echo.Common.Utils.BlockStateJSON;
 
 public class BlockStateGetter implements ICommand{
-	
-	public static final ArrayList<Block> blacklist = new ArrayList<Block>(Arrays.asList(new Block[]{ContentRegistry.VOID, ContentRegistry.COMPRESSED_BLOCK}));
 
 	@Override
 	public int compareTo(ICommand o) {
@@ -59,7 +57,7 @@ public class BlockStateGetter implements ICommand{
 				
 				IBlockState state = ((EntityPlayer)sender).worldObj.getBlockState(new BlockPos(((EntityPlayer)sender).posX, ((EntityPlayer)sender).posY, ((EntityPlayer)sender).posZ).down());
 				
-				if(state.isFullBlock() && !blacklist.contains(state.getBlock()))
+				if(state.isFullBlock() && !BlockStateJSON.blacklist.contains(state.getBlock()))
 					((EntityPlayer)sender).addChatMessage(new TextComponentTranslation((NBTUtil.func_190009_a(new NBTTagCompound(), state).toString())));
 				else{
 					ItemStack orig = new ItemStack(Item.getItemFromBlock(state.getBlock()), 1, state.getBlock().getMetaFromState(state));
@@ -74,7 +72,7 @@ public class BlockStateGetter implements ICommand{
 			else if(args.length == 3 && args[0].equals("block") && args[1].matches("^[1-6].*") && args[2].equals("paste")){
 				IBlockState state = ((EntityPlayer)sender).worldObj.getBlockState(new BlockPos(((EntityPlayer)sender).posX, ((EntityPlayer)sender).posY, ((EntityPlayer)sender).posZ).down());
 				
-				if(state.isFullBlock() && !blacklist.contains(state.getBlock())){
+				if(state.isFullBlock() && !BlockStateJSON.blacklist.contains(state.getBlock())){
 					System.out.println(Byte.parseByte(args[1]));
 					BlockStateJSON.addBlockStateToJSON(state, Byte.parseByte(args[1]));
 				}
@@ -83,7 +81,7 @@ public class BlockStateGetter implements ICommand{
 			else if(args.length == 4 && args[0].equals("block") && args[1].matches("^[1-6].*") && args[2].equals("paste") && args[3].equals("reload")){
 				IBlockState state = ((EntityPlayer)sender).worldObj.getBlockState(new BlockPos(((EntityPlayer)sender).posX, ((EntityPlayer)sender).posY, ((EntityPlayer)sender).posZ).down());
 				
-				if(state.isFullBlock() && !blacklist.contains(state.getBlock())){
+				if(state.isFullBlock() && !BlockStateJSON.blacklist.contains(state.getBlock())){
 					System.out.println(Byte.parseByte(args[1]));
 					BlockStateJSON.addBlockStateToJSON(state, Byte.parseByte(args[1]));
 				}

@@ -16,8 +16,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.JsonToNBT;
@@ -27,8 +29,11 @@ import net.minecraft.nbt.NBTUtil;
 import net.minecraftforge.fml.common.Loader;
 import se.Matryoshika.Echo.Echo;
 import se.Matryoshika.Echo.Common.BlockStateGetter;
+import se.Matryoshika.Echo.Common.Content.ContentRegistry;
 
 public class BlockStateJSON {
+	
+	public static final ArrayList<Block> blacklist = new ArrayList<Block>(Arrays.asList(new Block[]{ContentRegistry.VOID, ContentRegistry.COMPRESSED_BLOCK}));
 	
 	public static List<IBlockState> states = new ArrayList<IBlockState>();
 	public static Map<IBlockState,Byte> tiers = null;
@@ -116,7 +121,7 @@ public class BlockStateJSON {
 				e.printStackTrace();
 			}
 			IBlockState state = NBTUtil.func_190008_d(nbt);
-			if(state != null && state.isFullBlock() && !BlockStateGetter.blacklist.contains(state.getBlock()))
+			if(state != null && state.isFullBlock() && !blacklist.contains(state.getBlock()))
 				states.add(state);
 		}
 		
