@@ -47,6 +47,7 @@ public class TileTemporalDilation extends TileEntity implements ITickable{
 	public static boolean playerKill = false;
 	public Class entityClass;
 	public LootGenerator loot;
+	public boolean hasUpdated = false;
 	
 	public void setEntity(EntityLiving entity){
 		entityClass = entity.getClass();
@@ -75,7 +76,11 @@ public class TileTemporalDilation extends TileEntity implements ITickable{
 			else
 				dmg = DamageSource.causePlayerDamage(FakePlayerFactory.getMinecraft((WorldServer) worldObj));
 			
-			loot = new LootGenerator(worldObj, entity, dmg);
+			if(loot == null || hasUpdated){
+				System.out.println("Updating the loot");
+				loot = new LootGenerator(worldObj, entity, dmg);
+				hasUpdated = false;
+			}
 			
 			IItemHandler inv = getItemHandler();
 			if(inv != null){
