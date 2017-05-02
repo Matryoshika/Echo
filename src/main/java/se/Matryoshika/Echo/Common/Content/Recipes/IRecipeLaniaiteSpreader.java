@@ -12,10 +12,6 @@ import se.Matryoshika.Echo.Echo;
 import se.Matryoshika.Echo.Common.Compat.Botania.BotaniaCompat;
 import se.Matryoshika.Echo.Common.Content.ContentRegistry;
 import se.Matryoshika.Echo.Common.Utils.EchoConstants;
-import vazkii.botania.api.state.BotaniaStateProps;
-import vazkii.botania.api.state.enums.StorageVariant;
-import vazkii.botania.common.block.ModBlocks;
-import vazkii.botania.common.item.ModItems;
 
 public class IRecipeLaniaiteSpreader implements IRecipe{
 	
@@ -25,11 +21,11 @@ public class IRecipeLaniaiteSpreader implements IRecipe{
 
 	@Override
 	public boolean matches(InventoryCrafting inv, World worldIn) {
-		ItemStack head = new ItemStack(ModItems.gaiaHead);
+		ItemStack head = new ItemStack(vazkii.botania.common.item.ModItems.gaiaHead);
 		ItemStack frag = new ItemStack(ContentRegistry.LANIAITE_CHUNK);
 		ItemStack terr = new ItemStack(ContentRegistry.COMPRESSED_BLOCK);
 		terr.setTagCompound(new NBTTagCompound());
-		terr.getTagCompound().setTag(EchoConstants.NBT_BLOCKSTATE,NBTUtil.func_190009_a(new NBTTagCompound(), ModBlocks.storage.getDefaultState().withProperty(BotaniaStateProps.STORAGE_VARIANT, StorageVariant.TERRASTEEL)));
+		terr.getTagCompound().setTag(EchoConstants.NBT_BLOCKSTATE,NBTUtil.func_190009_a(new NBTTagCompound(), vazkii.botania.common.block.ModBlocks.storage.getDefaultState().withProperty(vazkii.botania.api.state.BotaniaStateProps.STORAGE_VARIANT, vazkii.botania.api.state.enums.StorageVariant.TERRASTEEL)));
 		terr.getTagCompound().setByte(EchoConstants.NBT_TIER, (byte) 2);
 		ItemStack reds = new ItemStack(ContentRegistry.COMPRESSED_BLOCK);
 		reds.setTagCompound(new NBTTagCompound());
@@ -37,7 +33,7 @@ public class IRecipeLaniaiteSpreader implements IRecipe{
 		reds.getTagCompound().setByte(EchoConstants.NBT_TIER, (byte) 3);
 		ItemStack livi = new ItemStack(ContentRegistry.COMPRESSED_BLOCK);
 		livi.setTagCompound(new NBTTagCompound());
-		livi.getTagCompound().setTag(EchoConstants.NBT_BLOCKSTATE,NBTUtil.func_190009_a(new NBTTagCompound(), ModBlocks.livingwood.getDefaultState()));
+		livi.getTagCompound().setTag(EchoConstants.NBT_BLOCKSTATE,NBTUtil.func_190009_a(new NBTTagCompound(), vazkii.botania.common.block.ModBlocks.livingwood.getDefaultState()));
 		livi.getTagCompound().setByte(EchoConstants.NBT_TIER, (byte) 2);
 		
 		

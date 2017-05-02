@@ -1,6 +1,7 @@
 package se.Matryoshika.Echo.Common.Compat.JEI;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.google.common.collect.ImmutableList;
@@ -16,7 +17,6 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraftforge.fluids.FluidStack;
-import scala.actors.threadpool.Arrays;
 import se.Matryoshika.Echo.Common.Content.ContentRegistry;
 import se.Matryoshika.Echo.Common.Utils.EchoConstants;
 

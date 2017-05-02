@@ -12,9 +12,6 @@ import se.Matryoshika.Echo.Echo;
 import se.Matryoshika.Echo.Common.Compat.Botania.BotaniaCompat;
 import se.Matryoshika.Echo.Common.Content.ContentRegistry;
 import se.Matryoshika.Echo.Common.Utils.EchoConstants;
-import vazkii.botania.api.state.BotaniaStateProps;
-import vazkii.botania.api.state.enums.StorageVariant;
-import vazkii.botania.common.block.ModBlocks;
 
 public class IRecipeLaniaitePool implements IRecipe{
 	
@@ -25,14 +22,14 @@ public class IRecipeLaniaitePool implements IRecipe{
 	@Override
 	public boolean matches(InventoryCrafting inv, World worldIn) {
 		ItemStack lan = new ItemStack(ContentRegistry.LANIAITE_BLOCK);
-		ItemStack pool = new ItemStack(ModBlocks.pool);
+		ItemStack pool = new ItemStack(vazkii.botania.common.block.ModBlocks.pool);
 		ItemStack terr = new ItemStack(ContentRegistry.COMPRESSED_BLOCK);
 		terr.setTagCompound(new NBTTagCompound());
-		terr.getTagCompound().setTag(EchoConstants.NBT_BLOCKSTATE,NBTUtil.func_190009_a(new NBTTagCompound(), ModBlocks.storage.getDefaultState().withProperty(BotaniaStateProps.STORAGE_VARIANT, StorageVariant.TERRASTEEL)));
+		terr.getTagCompound().setTag(EchoConstants.NBT_BLOCKSTATE,NBTUtil.func_190009_a(new NBTTagCompound(), vazkii.botania.common.block.ModBlocks.storage.getDefaultState().withProperty(vazkii.botania.api.state.BotaniaStateProps.STORAGE_VARIANT, vazkii.botania.api.state.enums.StorageVariant.TERRASTEEL)));
 		terr.getTagCompound().setByte(EchoConstants.NBT_TIER, (byte) 2);
 		ItemStack liv = new ItemStack(ContentRegistry.COMPRESSED_BLOCK);
 		liv.setTagCompound(new NBTTagCompound());
-		liv.getTagCompound().setTag(EchoConstants.NBT_BLOCKSTATE,NBTUtil.func_190009_a(new NBTTagCompound(), ModBlocks.livingrock.getDefaultState()));
+		liv.getTagCompound().setTag(EchoConstants.NBT_BLOCKSTATE,NBTUtil.func_190009_a(new NBTTagCompound(), vazkii.botania.common.block.ModBlocks.livingrock.getDefaultState()));
 		liv.getTagCompound().setByte(EchoConstants.NBT_TIER, (byte) 3);
 		
 		//Top recipe first

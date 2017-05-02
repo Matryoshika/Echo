@@ -31,10 +31,13 @@ public class EchoHandler implements IRecipeHandler<IRecipe>{
 		
 		if(recipe instanceof IRecipePhaseSubstantiator)
 			return new PhaseSubstantiatorWrapper(recipe);
+		
 		if(recipe instanceof IRecipeLaniaiteFabricator)
 			return new LaniaiteFabricatorWrapper(recipe);
+		
 		if(recipe instanceof IRecipeLaniaitePool)
 			return new LaniaitePoolWrapper(recipe);
+		
 		if(recipe instanceof IRecipeLaniaiteSpreader)
 			return new LaniaiteSpreaderWrapper(recipe);
 		

@@ -48,38 +48,8 @@ public class JEICompat implements IModPlugin {
 	public void register(IModRegistry registry) {
 
 		helper = registry.getJeiHelpers();
-
 		registry.addRecipeHandlers(new EchoHandler());
-		registry.addRecipes(
-				ImmutableList.of(new IRecipe[] { new IRecipeLaniaiteFabricator(), new IRecipePhaseSubstantiator() }));
-		
-		if(BotaniaCompat.LANIAITE_POOL != null)
-			registry.addRecipes(ImmutableList.of(new IRecipe[]{new IRecipeLaniaitePool()}));
-		if(BotaniaCompat.LANIAITE_SPREADER != null)
-			registry.addRecipes(ImmutableList.of(new IRecipe[]{new IRecipeLaniaiteSpreader()}));
-
 		helper.getIngredientBlacklist().addIngredientToBlacklist(new ItemStack(ContentRegistry.VOID));
-
-		ItemStack basic = new ItemStack(ContentRegistry.COMPRESSED_BLOCK);
-		basic.setTagCompound(new NBTTagCompound());
-		//helper.getIngredientBlacklist().addIngredientToBlacklist(basic);
-
-		List<ItemStack> unhiders = new ArrayList<ItemStack>();
-		for (IBlockState state : BlockStateJSON.getAllowedStates()) {
-
-			for (byte i = 1; i <= BlockStateJSON.getTiers(state); i++) {
-				ItemStack stack = new ItemStack(ContentRegistry.COMPRESSED_BLOCK);
-				NBTTagCompound nbt = new NBTTagCompound();
-				nbt.setTag(EchoConstants.NBT_BLOCKSTATE, NBTUtil.func_190009_a(new NBTTagCompound(), state));
-				nbt.setByte(EchoConstants.NBT_TIER, i);
-				stack.setTagCompound(nbt);
-				unhiders.add(stack);
-			}
-
-		}
-
-		for (ItemStack stack : unhiders){}
-			//helper.getIngredientBlacklist().removeIngredientFromBlacklist(stack);
 
 	}
 
