@@ -55,6 +55,8 @@ public class RecipeHandler {
 		
 		GameRegistry.addRecipe(new IRecipeLaniaiteFabricator());
 		
+		GameRegistry.addRecipe(new IRecipeTemporalDilation());
+		
 		if(BotaniaCompat.LANIAITE_POOL != null)
 			GameRegistry.addRecipe(new IRecipeLaniaitePool());
 		

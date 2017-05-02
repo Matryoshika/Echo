@@ -8,6 +8,7 @@ import se.Matryoshika.Echo.Common.Content.Recipes.IRecipeLaniaiteFabricator;
 import se.Matryoshika.Echo.Common.Content.Recipes.IRecipeLaniaitePool;
 import se.Matryoshika.Echo.Common.Content.Recipes.IRecipeLaniaiteSpreader;
 import se.Matryoshika.Echo.Common.Content.Recipes.IRecipePhaseSubstantiator;
+import se.Matryoshika.Echo.Common.Content.Recipes.IRecipeTemporalDilation;
 
 public class EchoHandler implements IRecipeHandler<IRecipe>{
 
@@ -35,6 +36,9 @@ public class EchoHandler implements IRecipeHandler<IRecipe>{
 		if(recipe instanceof IRecipeLaniaiteFabricator)
 			return new LaniaiteFabricatorWrapper(recipe);
 		
+		if(recipe instanceof IRecipeTemporalDilation)
+			return new TemporalDilationWrapper(recipe);
+		
 		if(recipe instanceof IRecipeLaniaitePool)
 			return new LaniaitePoolWrapper(recipe);
 		
@@ -50,6 +54,9 @@ public class EchoHandler implements IRecipeHandler<IRecipe>{
 			return true;
 		
 		if(recipe instanceof IRecipeLaniaiteFabricator)
+			return true;
+		
+		if(recipe instanceof IRecipeTemporalDilation)
 			return true;
 		
 		if(recipe instanceof IRecipeLaniaitePool)
