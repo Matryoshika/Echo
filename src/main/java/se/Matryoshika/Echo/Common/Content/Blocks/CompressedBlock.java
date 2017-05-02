@@ -80,12 +80,6 @@ public class CompressedBlock extends Block {
 		return new TileMenger();
 	}
 
-	public CompressedBlock setTexture(IBlockState state) {
-		// Echo.proxy.createModels(state.getBlock().getRegistryName().getResourcePath(),
-		// tier, new ResourceLocation("minecraft", "blocks/emerald_block"));
-		return this;
-	}
-
 	@Override
 	public EnumBlockRenderType getRenderType(IBlockState state) {
 		return EnumBlockRenderType.MODEL;
