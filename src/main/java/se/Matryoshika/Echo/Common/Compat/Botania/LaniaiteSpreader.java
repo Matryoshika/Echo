@@ -22,8 +22,8 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.Optional;
 import se.Matryoshika.Echo.Echo;
+import vazkii.botania.api.BotaniaAPI;
 import vazkii.botania.api.lexicon.ILexiconable;
 import vazkii.botania.api.lexicon.LexiconEntry;
 import vazkii.botania.api.mana.ILens;
@@ -35,15 +35,13 @@ import vazkii.botania.api.wand.IWireframeAABBProvider;
 import vazkii.botania.common.block.tile.mana.TileSpreader;
 import vazkii.botania.common.core.helper.InventoryHelper;
 import vazkii.botania.common.item.ModItems;
+import vazkii.botania.common.lexicon.CompatLexiconEntry;
 import vazkii.botania.common.lexicon.LexiconData;
+import vazkii.botania.common.lexicon.page.PageText;
 
-@Optional.InterfaceList({
-	@Optional.Interface(modid = "botania", iface = "vazkii.botania.api.wand.IWandHUD", striprefs = true),
-	@Optional.Interface(modid = "botania", iface = "vazkii.botania.api.wand.IWandable", striprefs = true),
-	@Optional.Interface(modid = "botania", iface = "vazkii.botania.api.lexicon.ILexiconable", striprefs = true),
-	@Optional.Interface(modid = "botania", iface = "vazkii.botania.api.wand.IWireframeAABBProvider", striprefs = true)
-})
 public class LaniaiteSpreader extends Block implements IWandable, IWandHUD, ILexiconable, IWireframeAABBProvider {
+	
+	public static LexiconEntry LANIAITESPREADER;
 
 	public LaniaiteSpreader() {
 		super(Material.WOOD);
@@ -51,6 +49,7 @@ public class LaniaiteSpreader extends Block implements IWandable, IWandHUD, ILex
 		setUnlocalizedName(getRegistryName().toString());
 		setHardness(20F);
 		setSoundType(SoundType.WOOD);
+
 	}
 
 	@Nonnull
@@ -210,14 +209,20 @@ public class LaniaiteSpreader extends Block implements IWandable, IWandHUD, ILex
 
 	@Override
 	public LexiconEntry getEntry(World world, BlockPos pos, EntityPlayer player, ItemStack lexicon) {
-		SpreaderVariant variant = world.getBlockState(pos).getValue(BotaniaStateProps.SPREADER_VARIANT);
-		return variant == SpreaderVariant.MANA ? LexiconData.spreader
-				: variant == SpreaderVariant.REDSTONE ? LexiconData.redstoneSpreader : LexiconData.dreamwoodSpreader;
+		return LexiconData.spreader;
 	}
 
 	@Override
 	public AxisAlignedBB getWireframeAABB(World world, BlockPos pos) {
 		return FULL_BLOCK_AABB.offset(pos).contract(1.0 / 16.0);
+	}
+	
+	public static class SpreaderLexicon{
+		
+		public static void setLexiconData(){
+			LANIAITESPREADER = new CompatLexiconEntry("echo:laniaite_spreader", BotaniaAPI.categoryMana, "Echo");
+			LANIAITESPREADER.setLexiconPages(new PageText("0")).setIcon(new ItemStack(BotaniaCompat.LANIAITE_SPREADER));
+		}
 	}
 
 }

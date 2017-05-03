@@ -16,7 +16,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
 import net.minecraft.tileentity.TileEntity;
@@ -24,11 +23,8 @@ import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.ChunkCache;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.Chunk;
-import net.minecraftforge.fml.common.Optional;
 import se.Matryoshika.Echo.Echo;
 import vazkii.botania.api.BotaniaAPI;
 import vazkii.botania.api.internal.VanillaPacketDispatcher;
@@ -40,16 +36,9 @@ import vazkii.botania.api.wand.IWandHUD;
 import vazkii.botania.api.wand.IWandable;
 import vazkii.botania.common.achievement.ICraftAchievement;
 import vazkii.botania.common.achievement.ModAchievements;
-import vazkii.botania.common.block.mana.BlockPool;
 import vazkii.botania.common.block.tile.mana.TilePool;
 import vazkii.botania.common.lexicon.LexiconData;
 
-@Optional.InterfaceList({
-	@Optional.Interface(modid = "botania", iface = "vazkii.botania.api.wand.IWandHUD", striprefs = true),
-	@Optional.Interface(modid = "botania", iface = "vazkii.botania.api.wand.IWandable", striprefs = true),
-	@Optional.Interface(modid = "botania", iface = "vazkii.botania.api.lexicon.ILexiconable", striprefs = true),
-	@Optional.Interface(modid = "botania", iface = "vazkii.botania.common.achievement.ICraftAchievement", striprefs = true)
-})
 public class LaniaiteManaPool extends Block implements IWandHUD, IWandable, ILexiconable, ICraftAchievement{
 
 	public LaniaiteManaPool() {

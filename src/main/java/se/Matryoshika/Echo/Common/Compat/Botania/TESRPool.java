@@ -35,6 +35,7 @@ public class TESRPool extends TileEntitySpecialRenderer<TileLaniaitePool> {
 		if (pool != null && (!pool.getWorld().isBlockLoaded(pool.getPos(), false)
 				|| pool.getWorld().getBlockState(pool.getPos()).getBlock() != BotaniaCompat.LANIAITE_POOL))
 			return;
+		
 
 		//
 
@@ -52,44 +53,21 @@ public class TESRPool extends TileEntitySpecialRenderer<TileLaniaitePool> {
 			GlStateManager.translate(d0, d1, d2);
 		}
 
-		boolean fab = pool == null ? forceVariant == PoolVariant.FABULOUS
-				: pool.getWorld().getBlockState(pool.getPos())
-						.getValue(BotaniaStateProps.POOL_VARIANT) == PoolVariant.FABULOUS;
+		boolean fab = false;
 
 		Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-		int color = 0xFFFFFF;
-
-		if (fab) {
-			float time = ClientTickHandler.ticksInGame + ClientTickHandler.partialTicks;
-			if (pool != null)
-				time += new Random(pool.getPos().getX() ^ pool.getPos().getY() ^ pool.getPos().getZ()).nextInt(100000);
-			color = Color.HSBtoRGB(time * 0.005F, 0.6F, 1F);
-		}
-
-		if (fab || forceManaNumber > -1) {
-			int red = (color & 0xFF0000) >> 16;
-			int green = (color & 0xFF00) >> 8;
-			int blue = color & 0xFF;
-			IBakedModel model = Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes()
-					.getModelForState(
-							pool == null ? BotaniaCompat.LANIAITE_POOL.getDefaultState().withProperty(BotaniaStateProps.POOL_VARIANT,
-									forceVariant) : pool.getWorld().getBlockState(pool.getPos()));
-			Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelRenderer()
-					.renderModelBrightnessColor(model, 1.0F, red / 255F, green / 255F, blue / 255F);
-			
-			System.out.println("Rendering fab");
-		}
+		int color = 0xFF1111;
 
 		GlStateManager.translate(0.5F, 1.5F, 0.5F);
-		GlStateManager.color(1, 1, 1, a);
+		GlStateManager.color(1f, 0.5f, 0.5f, a);
 		GlStateManager.enableRescaleNormal();
 
-		int mana = pool == null ? forceManaNumber : pool.getCurrentMana();
-		int cap = pool == null ? -1 : pool.manaCap;
+		int mana = pool.getCurrentMana();
+		int cap = pool.manaCap;
 		if (cap == -1)
 			cap = TilePool.MAX_MANA;
 
-		float waterLevel = (float) mana / (float) cap * 0.4F;
+		float waterLevel = (float) mana / (float) cap * 0.42F;
 
 		float s = 1F / 16F;
 		float v = 1F / 8F;
@@ -104,8 +82,7 @@ public class TESRPool extends TileEntitySpecialRenderer<TileLaniaitePool> {
 					GlStateManager.enableBlend();
 					GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 					GlStateManager.disableAlpha();
-					GlStateManager.color(1F, 1F, 1F,
-							a * (float) ((Math.sin((ClientTickHandler.ticksInGame + f) / 20.0) + 1) * 0.3 + 0.2));
+					GlStateManager.color(1F, 0F, 0F, a * (float) ((Math.sin((ClientTickHandler.ticksInGame + f) / 20.0) + 1) * 0.3 + 0.2));
 					GlStateManager.translate(-0.5F, -1F - 0.43F, -0.5F);
 					GlStateManager.rotate(90F, 1F, 0F, 0F);
 					GlStateManager.scale(s, s, s);
@@ -125,7 +102,7 @@ public class TESRPool extends TileEntitySpecialRenderer<TileLaniaitePool> {
 			GlStateManager.enableBlend();
 			GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 			GlStateManager.disableAlpha();
-			GlStateManager.color(1F, 1F, 1F, a);
+			GlStateManager.color(1F, 0F, 0F, a);
 			GlStateManager.translate(w, -1F - (0.43F - waterLevel), w);
 			GlStateManager.rotate(90F, 1F, 0F, 0F);
 			GlStateManager.scale(s, s, s);
