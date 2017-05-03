@@ -11,8 +11,11 @@ import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import se.Matryoshika.Echo.Echo;
 import se.Matryoshika.Echo.Client.Models.EchoModelLoader;
 import se.Matryoshika.Echo.Client.Models.TESRTemporalDilation;
@@ -24,10 +27,12 @@ import se.Matryoshika.Echo.Common.Content.Tile.TileTemporalDilation;
 @Mod.EventBusSubscriber
 public class ModelRegistry {
 	
+	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public static void registerModels(ModelRegistryEvent event){
+			
 		OBJLoader.INSTANCE.addDomain(Echo.MODID);
-		ModelLoaderRegistry.registerLoader(new EchoModelLoader());
+		
 		
 		
 		
