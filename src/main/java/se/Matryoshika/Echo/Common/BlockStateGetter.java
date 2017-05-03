@@ -18,6 +18,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.management.PlayerList;
+import net.minecraft.server.management.UserListOps;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
@@ -57,8 +59,10 @@ public class BlockStateGetter implements ICommand{
 				
 				IBlockState state = ((EntityPlayer)sender).worldObj.getBlockState(new BlockPos(((EntityPlayer)sender).posX, ((EntityPlayer)sender).posY, ((EntityPlayer)sender).posZ).down());
 				
-				if(state.isFullBlock() && !BlockStateJSON.blacklist.contains(state.getBlock()))
+				if(state.isFullBlock() && !BlockStateJSON.blacklist.contains(state.getBlock())){
+					
 					((EntityPlayer)sender).addChatMessage(new TextComponentTranslation((NBTUtil.func_190009_a(new NBTTagCompound(), state).toString())));
+				}
 				else{
 					ItemStack orig = new ItemStack(Item.getItemFromBlock(state.getBlock()), 1, state.getBlock().getMetaFromState(state));
 					if(orig != null && orig.getItem() != null)
@@ -98,9 +102,10 @@ public class BlockStateGetter implements ICommand{
 
 	@Override
 	public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
-		if(server.isSinglePlayer())
+		if(server.isSinglePlayer()){
 			return true;
-		return (server.canCommandSenderUseCommand(server.getOpPermissionLevel(), "echo"));
+		}
+		return false;
 	}
 
 	@Override
