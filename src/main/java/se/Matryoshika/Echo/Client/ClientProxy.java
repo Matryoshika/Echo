@@ -3,10 +3,12 @@ package se.Matryoshika.Echo.Client;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.IReloadableResourceManager;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import se.Matryoshika.Echo.Client.Models.EchoModelCache;
+import se.Matryoshika.Echo.Client.Models.EchoModelLoader;
 import se.Matryoshika.Echo.Common.CommonProxy;
 import se.Matryoshika.Echo.Common.Compat.Botania.TESRPool;
 import se.Matryoshika.Echo.Common.Compat.Botania.TESRSpreader;
@@ -18,6 +20,7 @@ public class ClientProxy extends CommonProxy{
 	@Override
 	public void preInit(FMLPreInitializationEvent event){
 		((IReloadableResourceManager)Minecraft.getMinecraft().getResourceManager()).registerReloadListener(new EchoModelCache());
+		ModelLoaderRegistry.registerLoader(new EchoModelLoader());
 	}
 	
 	@Override

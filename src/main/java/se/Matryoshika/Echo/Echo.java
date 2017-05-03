@@ -79,7 +79,6 @@ public class Echo{
     
     @EventHandler
     public void init(FMLInitializationEvent event){
-    	FMLLog.bigWarning(NBTUtil.func_190009_a(new NBTTagCompound(), Blocks.DIAMOND_BLOCK.getDefaultState()).toString(), new Object[0]);
     	
     	NetworkRegistry.INSTANCE.registerGuiHandler(this, new GUIHandler());
     	
