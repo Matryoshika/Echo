@@ -20,12 +20,17 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.launchwrapper.Launch;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTUtil;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.storage.loot.LootContext;
@@ -38,6 +43,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.VanillaDoubleChestItemHandler;
 import se.Matryoshika.Echo.Common.Content.ContentRegistry;
 import se.Matryoshika.Echo.Common.Content.Blocks.LaniaiteFabricator;
+import se.Matryoshika.Echo.Common.Utils.EchoConstants;
 import net.minecraft.inventory.InventoryHelper;
 
 public class TileTemporalDilation extends TileEntity implements ITickable{
@@ -52,6 +58,79 @@ public class TileTemporalDilation extends TileEntity implements ITickable{
 	public void setEntity(EntityLiving entity){
 		entityClass = entity.getClass();
 	}
+	
+	
+	@Override
+	public void readFromNBT(NBTTagCompound compound) {
+		super.readFromNBT(compound);
+		readPacketNBT(compound);
+	}
+
+	@Override
+	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+		NBTTagCompound ret = super.writeToNBT(compound);
+		writePacketNBT(ret);
+		return ret;
+	}
+
+	public void writePacketNBT(NBTTagCompound cmp) {
+
+		cmp.setString(EchoConstants.NBT_TD_CLASS, entityClass.getName());
+		cmp.setBoolean(EchoConstants.NBT_TD_KILL, playerKill);
+	}
+
+	public void readPacketNBT(NBTTagCompound cmp) {
+		try {
+			entityClass = Class.forName(cmp.getString(EchoConstants.NBT_TD_CLASS));
+		} catch (ClassNotFoundException e) {
+			System.out.println("Exception finding the class: " + cmp.getString(EchoConstants.NBT_TD_CLASS));
+		}
+		playerKill = cmp.getBoolean(EchoConstants.NBT_TD_KILL);
+	}
+	
+	@Override
+	public NBTTagCompound getUpdateTag(){
+		final NBTTagCompound nbt = new NBTTagCompound();
+		nbt.setInteger("x", pos.getX());
+		nbt.setInteger("y", pos.getY());
+		nbt.setInteger("z", pos.getZ());
+		nbt.setString(EchoConstants.NBT_TD_CLASS, entityClass.getName());
+		nbt.setBoolean(EchoConstants.NBT_TD_KILL, playerKill);
+		
+		return nbt;
+		
+	}
+	
+	@Override
+	public void handleUpdateTag(NBTTagCompound tag){
+		setPos(new BlockPos(tag.getInteger("x"),tag.getInteger("y"),tag.getInteger("z")));
+		try {
+			entityClass = Class.forName(tag.getString(EchoConstants.NBT_TD_CLASS));
+		} catch (ClassNotFoundException e) {}
+		playerKill = tag.getBoolean(EchoConstants.NBT_TD_KILL);
+	}
+
+	@Override
+	public final SPacketUpdateTileEntity getUpdatePacket() {
+		NBTTagCompound tag = new NBTTagCompound();
+		if(entityClass != null){
+			tag.setString(EchoConstants.NBT_TD_CLASS, entityClass.getName());
+			tag.setBoolean(EchoConstants.NBT_TD_KILL, playerKill);
+		}
+		if(tag.hasNoTags())
+			return null;
+		return new SPacketUpdateTileEntity(pos, -999, tag);
+	}
+
+	@Override
+	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
+		super.onDataPacket(net, pkt);
+		readPacketNBT(pkt.getNbtCompound());
+		
+		//worldObj.markBlockRangeForRenderUpdate(pos, pos);
+
+	}
+	
 
 	@Override
 	public void update() {
@@ -77,7 +156,6 @@ public class TileTemporalDilation extends TileEntity implements ITickable{
 				dmg = DamageSource.causePlayerDamage(FakePlayerFactory.getMinecraft((WorldServer) worldObj));
 			
 			if(loot == null || hasUpdated){
-				System.out.println("Updating the loot");
 				loot = new LootGenerator(worldObj, entity, dmg);
 				hasUpdated = false;
 			}
