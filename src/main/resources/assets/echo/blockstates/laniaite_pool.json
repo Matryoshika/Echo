@@ -27,6 +27,11 @@
                         "translation": [0, 0.0, 0],
                         "rotation": [ { "y": 50}, {"x": 25}, {"z": 25} ],
                         "scale": 0.6
+                    },
+                    "ground": {
+                        "translation": [0, 0, 0],
+                        "rotation": [ { "y": 0}, {"x": 0}, {"z": 0} ],
+                        "scale": 0.5
                     }
                 }
         }]
