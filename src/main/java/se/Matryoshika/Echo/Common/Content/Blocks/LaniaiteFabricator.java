@@ -25,6 +25,7 @@ public class LaniaiteFabricator extends Block{
 		setRegistryName(Echo.MODID, "laniaite_fabricator");
 		setUnlocalizedName(getRegistryName().toString());
 		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.DOWN));
+		this.setHardness(20);
 	}
 	
 	@Override

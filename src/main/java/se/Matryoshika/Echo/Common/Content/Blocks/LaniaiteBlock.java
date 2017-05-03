@@ -10,6 +10,7 @@ public class LaniaiteBlock extends Block{
 		super(Material.IRON);
 		setRegistryName(Echo.MODID, "laniaite_block");
 		setUnlocalizedName(getRegistryName().toString());
+		this.setHardness(20);
 	}
 
 }
