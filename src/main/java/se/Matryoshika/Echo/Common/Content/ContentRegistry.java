@@ -11,6 +11,7 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import se.Matryoshika.Echo.Common.Compat.Botania.BotaniaCompat;
+import se.Matryoshika.Echo.Common.Content.Blocks.BlockGuillotine;
 import se.Matryoshika.Echo.Common.Content.Blocks.CompressedBlock;
 import se.Matryoshika.Echo.Common.Content.Blocks.LaniaiteBlock;
 import se.Matryoshika.Echo.Common.Content.Blocks.LaniaiteFabricator;
@@ -18,6 +19,7 @@ import se.Matryoshika.Echo.Common.Content.Blocks.PhaseSubstantiatorBlock;
 import se.Matryoshika.Echo.Common.Content.Blocks.TemporalDilatorBlock;
 import se.Matryoshika.Echo.Common.Content.Blocks.Void;
 import se.Matryoshika.Echo.Common.Content.Items.ItemCompressionWand;
+import se.Matryoshika.Echo.Common.Content.Items.ItemUpgrade;
 import se.Matryoshika.Echo.Common.Content.Items.LaniaiteChunk;
 import se.Matryoshika.Echo.Common.Content.Items.LaniaiteFragment;
 
@@ -30,10 +32,12 @@ public class ContentRegistry {
 	public static Block TEMPORAL_DILATOR;
 	public static Block LANIAITE_FABRICATOR;
 	public static Block LANIAITE_BLOCK;
+	public static Block GUILLOTINE;
 	
 	public static Item COMPRESSION_WAND;
 	public static Item LANIAITE_CHUNK;
 	public static Item LANIAITE_FRAGMENT;
+	public static Item UPGRADE;
 	
 	public static List<Block> blockList = new ArrayList<Block>();
 	public static List<Item> itemList = new ArrayList<Item>();
@@ -45,6 +49,7 @@ public class ContentRegistry {
 		blockList.add(TEMPORAL_DILATOR = new TemporalDilatorBlock());
 		blockList.add(LANIAITE_FABRICATOR = new LaniaiteFabricator());
 		blockList.add(LANIAITE_BLOCK = new LaniaiteBlock());
+		blockList.add(GUILLOTINE = new BlockGuillotine());
 		
 		if(Loader.isModLoaded("Botania")){
 			for(Block block : BotaniaCompat.init())
@@ -56,6 +61,7 @@ public class ContentRegistry {
 		itemList.add(COMPRESSION_WAND = new ItemCompressionWand());
 		itemList.add(LANIAITE_CHUNK = new LaniaiteChunk());
 		itemList.add(LANIAITE_FRAGMENT = new LaniaiteFragment());
+		itemList.add(UPGRADE = new ItemUpgrade());
 	}
 	
 	@SubscribeEvent
@@ -72,6 +78,8 @@ public class ContentRegistry {
 			ItemBlock iBlock = null;
 			if(block == COMPRESSED_BLOCK)
 				iBlock = new ItemBlockMenger();
+			else if(block == GUILLOTINE)
+				iBlock = new ItemBlockGuillotine();
 			else
 				iBlock = new ItemBlock(block);
 			iBlock.setRegistryName(block.getRegistryName());

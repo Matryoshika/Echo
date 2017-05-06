@@ -34,7 +34,7 @@ public class EventHandler {
 				continue;
 			
 			TileTemporalDilation tile = (TileTemporalDilation) world.getTileEntity(_pos);
-			tile.entityClass = event.getEntityLiving().getClass();
+			tile.setEntity((EntityLiving) event.getEntityLiving());
 			tile.hasUpdated = true;
 		}
 		

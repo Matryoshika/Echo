@@ -2,12 +2,25 @@
 item.echo:compression_wand.name=Compression Wand
 item.echo:laniaite_fragment.name=Laniaite Fragment
 item.echo:laniaite_chunk.name=Laniaite Chunk
+item.echo:player_kill.name=Upgrade: Player Killing
+item.echo:fortune_1.name=Upgrade: Looting I
+item.echo:fortune_2.name=Upgrade: Looting II
+item.echo:fortune_3.name=Upgrade: Looting III
+item.echo:fortune_4.name=Upgrade: Looting IV
+item.echo:fortune_5.name=Upgrade: Looting V
+item.echo:fortune_6.name=Upgrade: Looting VI
+item.echo:beheading.name=Upgrade: Beheading
+item.echo:redstone.name=Upgrade: Redstone
  
 #Blocks
 tile.echo:laniaite_block.name=Block of Laniaite
 tile.echo:laniaite_fabricator.name=Laniaite Fabricator
 tile.echo:phase_substantiator.name=Phase Substantiator
 tile.echo:temporal_dilator.name=Temporal Dilator
+tile.echo:guillotine.name=Tiny Guillotine
+
+#Lore
+echo:lore.block.guillotine=Watch your fingers!
 
 #Compat
 tile.echo:laniaite_spreader.name=Laniaite Spreader
