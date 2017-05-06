@@ -1,0 +1,62 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "items/bow_standby"
+    },
+    "overrides": [
+        {
+            "predicate": {
+                "meta": 0
+            },
+            "model": "echo:item/upgrade_pk"
+        },
+        {
+            "predicate": {
+                "meta": 1
+            },
+            "model": "echo:item/upgrade_fortune"
+        },
+        {
+            "predicate": {
+                "meta": 2
+            },
+            "model": "echo:item/upgrade_fortune"
+        },
+        {
+            "predicate": {
+                "meta": 3
+            },
+            "model": "echo:item/upgrade_fortune"
+        },
+        {
+            "predicate": {
+                "meta": 4
+            },
+            "model": "echo:item/upgrade_fortune"
+        },
+        {
+            "predicate": {
+                "meta": 5
+            },
+            "model": "echo:item/upgrade_fortune"
+        },
+        {
+            "predicate": {
+                "meta": 6
+            },
+            "model": "echo:item/upgrade_fortune"
+        },
+        {
+            "predicate": {
+                "meta": 7
+            },
+            "model": "echo:item/upgrade_beheading"
+        },
+        {
+            "predicate": {
+                "meta": 8
+            },
+            "model": "echo:item/upgrade_redstone"
+        }
+    ]
+}

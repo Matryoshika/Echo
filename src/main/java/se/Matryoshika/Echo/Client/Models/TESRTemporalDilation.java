@@ -6,6 +6,8 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.monster.EntitySkeleton;
+import net.minecraft.entity.monster.SkeletonType;
 import net.minecraft.item.ItemMonsterPlacer;
 import se.Matryoshika.Echo.Common.Content.Tile.TileTemporalDilation;
 
@@ -22,6 +24,13 @@ public class TESRTemporalDilation extends TileEntitySpecialRenderer<TileTemporal
 		
 		if(entity == null)
 			return;
+		
+		if(entity instanceof EntitySkeleton){
+			if(te.meta == 1)
+				((EntitySkeleton)entity).func_189768_a(SkeletonType.WITHER);
+			else
+				((EntitySkeleton)entity).func_189768_a(SkeletonType.NORMAL);
+		}
 
 		
 		GlStateManager.pushMatrix();

@@ -22,6 +22,7 @@ import se.Matryoshika.Echo.Client.Models.TESRTemporalDilation;
 import se.Matryoshika.Echo.Client.Models.MengerTiers.BakedMengerOneModel;
 import se.Matryoshika.Echo.Common.Compat.Botania.BotaniaCompat;
 import se.Matryoshika.Echo.Common.Content.ContentRegistry;
+import se.Matryoshika.Echo.Common.Content.Items.ItemUpgrade;
 import se.Matryoshika.Echo.Common.Content.Tile.TileTemporalDilation;
 
 @Mod.EventBusSubscriber
@@ -47,8 +48,14 @@ public class ModelRegistry {
 		for(Block block : ContentRegistry.blockList)
 			ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), 0, new ModelResourceLocation(block.getRegistryName(), "inventory"));
 		
-		for(Item item : ContentRegistry.itemList)
-			ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
+		for(Item item : ContentRegistry.itemList){
+			if(item != ContentRegistry.UPGRADE)
+				ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
+			else{
+				for(int i = 0; i < ItemUpgrade.Upgrade.values().length; i++)
+					ModelLoader.setCustomModelResourceLocation(item, i, new ModelResourceLocation(item.getRegistryName(), String.valueOf(i)));
+			}
+		}
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileTemporalDilation.class, new TESRTemporalDilation());
 		

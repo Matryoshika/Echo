@@ -1,0 +1,30 @@
+# Blender MTL File: 'None'
+# Material Count: 4
+
+newmtl Material.001
+Ns 94.117647
+Ka 1.000000 1.000000 1.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+map_Kd minecraft:blocks/planks_big_oak
+
+newmtl Material_iron_block.png
+Ns 94.117647
+Ka 1.000000 1.000000 1.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+map_Kd minecraft:blocks/iron_block
+
+newmtl Material_wool_colored_white.png
+Ns 94.117647
+Ka 1.000000 1.000000 1.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+map_Kd minecraft:blocks/wool_colored_white
+
+newmtl Material_planks_oak.png
+Ns 94.117647
+Ka 1.000000 1.000000 1.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+map_Kd minecraft:blocks/planks_oak
