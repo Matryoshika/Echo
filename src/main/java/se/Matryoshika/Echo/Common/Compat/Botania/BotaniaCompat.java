@@ -25,10 +25,5 @@ public class BotaniaCompat {
 		return Arrays.asList(new Block[]{LANIAITE_POOL = new LaniaiteManaPool(), LANIAITE_SPREADER = new LaniaiteSpreader()});
 	}
 	
-	public static void postInit(){
-		if(LANIAITE_SPREADER != null)
-			LaniaiteSpreader.SpreaderLexicon.setLexiconData();
-		
-	}
 
 }
