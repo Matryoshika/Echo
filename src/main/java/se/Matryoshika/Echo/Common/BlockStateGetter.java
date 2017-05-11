@@ -52,6 +52,8 @@ public class BlockStateGetter implements ICommand{
 					ItemStack stack = ((EntityPlayer) sender).getHeldItemMainhand();
 					if(stack != null && stack.getItem() != Item.getItemFromBlock(ContentRegistry.COMPRESSED_BLOCK)){
 						IBlockState state = Block.getBlockFromItem(stack.getItem()).getStateFromMeta(stack.getMetadata());
+						if(!state.isFullBlock())
+							return;
 						stack = CompressedBlock.get(state, Byte.parseByte(args[1]));
 						((EntityPlayer) sender).setHeldItem(EnumHand.MAIN_HAND, stack);
 						
