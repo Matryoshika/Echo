@@ -18,6 +18,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentTranslation;
 import se.Matryoshika.Echo.Common.Content.ContentRegistry;
 import se.Matryoshika.Echo.Common.Content.Blocks.CompressedBlock;
+import se.Matryoshika.Echo.Common.Utils.EchoConstants;
 
 public class BlockStateGetter implements ICommand{
 
@@ -52,6 +53,16 @@ public class BlockStateGetter implements ICommand{
 					if(stack != null && stack.getItem() != Item.getItemFromBlock(ContentRegistry.COMPRESSED_BLOCK)){
 						IBlockState state = Block.getBlockFromItem(stack.getItem()).getStateFromMeta(stack.getMetadata());
 						stack = CompressedBlock.get(state, Byte.parseByte(args[1]));
+						((EntityPlayer) sender).setHeldItem(EnumHand.MAIN_HAND, stack);
+						
+					}
+				}
+			}
+			else if(args.length == 2 && args[0].equals("set_tier") && args[1].matches("^[1-6].*")){
+				if(((EntityPlayer) sender).capabilities.isCreativeMode){
+					ItemStack stack = ((EntityPlayer) sender).getHeldItemMainhand();
+					if(stack != null && stack.getItem() == Item.getItemFromBlock(ContentRegistry.COMPRESSED_BLOCK)){
+						stack.getTagCompound().setByte(EchoConstants.NBT_TIER, Byte.parseByte(args[1]));
 						((EntityPlayer) sender).setHeldItem(EnumHand.MAIN_HAND, stack);
 						
 					}
