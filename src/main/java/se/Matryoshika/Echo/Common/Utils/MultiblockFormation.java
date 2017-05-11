@@ -1,15 +1,8 @@
 package se.Matryoshika.Echo.Common.Utils;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import se.Matryoshika.Echo.Common.Content.ContentRegistry;
-import se.Matryoshika.Echo.Common.Content.Blocks.CompressedBlock;
 import se.Matryoshika.Echo.Common.Content.Tile.TileMenger;
 
 public class MultiblockFormation {
@@ -28,9 +21,6 @@ public class MultiblockFormation {
 				pos.add(0, 2, 1),                   pos.add(2, 2, 1),
 				pos.add(0, 2, 2), pos.add(1, 2, 2), pos.add(2, 2, 2)
 		};
-		
-		if(!BlockStateJSON.getAllowedStates().contains(world.getBlockState(pos)))
-			return;
 		
 		for(BlockPos _pos : multiblock){
 			if(world.getBlockState(_pos) != world.getBlockState(pos)){

@@ -1,8 +1,8 @@
 package se.Matryoshika.Echo.Common.Content.Tile;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTUtil;
@@ -18,7 +18,6 @@ import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 import se.Matryoshika.Echo.Echo;
 import se.Matryoshika.Echo.Common.Content.ContentRegistry;
-import se.Matryoshika.Echo.Common.Utils.BlockStateJSON;
 import se.Matryoshika.Echo.Common.Utils.EchoConstants;
 
 public class TilePhaseSubstantiator extends TileEntity implements ITickable{
@@ -37,7 +36,7 @@ public class TilePhaseSubstantiator extends TileEntity implements ITickable{
 		for(int i = 0; i < 5; i++){
 			if(outputSlots.getStackInSlot(i) != null && outputSlots.getStackInSlot(i).stackSize >= 20){
 				IBlockState state = NBTUtil.func_190008_d(outputSlots.getStackInSlot(i).getTagCompound().getCompoundTag(EchoConstants.NBT_BLOCKSTATE));
-				if(outputSlots.getStackInSlot(i).getTagCompound().getByte(EchoConstants.NBT_TIER) >= BlockStateJSON.getTiers(state))
+				if(outputSlots.getStackInSlot(i).getTagCompound().getByte(EchoConstants.NBT_TIER) >= 6)
 					continue;
 				
 				ItemStack stack = new ItemStack(ContentRegistry.COMPRESSED_BLOCK);
@@ -65,15 +64,7 @@ public class TilePhaseSubstantiator extends TileEntity implements ITickable{
 		}
 		
 		//If the code gets this far, then all slots are full, and all stacks are equal
-		//System.out.println(BlockStateJSON.states);
-		for(IBlockState state : BlockStateJSON.states){
-			//System.out.println(state);
-			if(Item.getItemFromBlock(state.getBlock()) == inputSlots.getStackInSlot(0).getItem()){
-				//System.out.println("We're getting this far!");
-				compress(state);
-				break;
-			}
-		}
+		compress(Block.getBlockFromItem(inputSlots.getStackInSlot(0).getItem()).getStateFromMeta(inputSlots.getStackInSlot(0).getMetadata()));
 		
 	}
 	

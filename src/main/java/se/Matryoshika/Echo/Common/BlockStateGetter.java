@@ -4,29 +4,20 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.google.gson.Gson;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTUtil;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.management.PlayerList;
-import net.minecraft.server.management.UserListOps;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import se.Matryoshika.Echo.Common.Content.ContentRegistry;
-import se.Matryoshika.Echo.Common.Utils.BlockStateJSON;
+import se.Matryoshika.Echo.Common.Content.Blocks.CompressedBlock;
 
 public class BlockStateGetter implements ICommand{
 
@@ -55,45 +46,20 @@ public class BlockStateGetter implements ICommand{
 		
 		if(sender instanceof EntityPlayer){
 			
-			if(args.length == 1 && args[0].equals("block")){
-				
-				IBlockState state = ((EntityPlayer)sender).worldObj.getBlockState(new BlockPos(((EntityPlayer)sender).posX, ((EntityPlayer)sender).posY, ((EntityPlayer)sender).posZ).down());
-				
-				if(state.isFullBlock() && !BlockStateJSON.blacklist.contains(state.getBlock())){
-					
-					((EntityPlayer)sender).addChatMessage(new TextComponentTranslation((NBTUtil.func_190009_a(new NBTTagCompound(), state).toString())));
-				}
-				else{
-					ItemStack orig = new ItemStack(Item.getItemFromBlock(state.getBlock()), 1, state.getBlock().getMetaFromState(state));
-					if(orig != null && orig.getItem() != null)
-						((EntityPlayer)sender).addChatMessage(new TextComponentTranslation("The provided state for " + orig.getDisplayName() + " is not a full block!"));
-					else{
-						((EntityPlayer)sender).addChatMessage(new TextComponentTranslation("The provided state for " + state.getBlock().getRegistryName().toString() + " is not a full block!"));
+			if(args.length == 2 && args[0].equals("make_menger") && args[1].matches("^[1-6].*")){
+				if(((EntityPlayer) sender).capabilities.isCreativeMode){
+					ItemStack stack = ((EntityPlayer) sender).getHeldItemMainhand();
+					if(stack != null && stack.getItem() != Item.getItemFromBlock(ContentRegistry.COMPRESSED_BLOCK)){
+						IBlockState state = Block.getBlockFromItem(stack.getItem()).getStateFromMeta(stack.getMetadata());
+						stack = CompressedBlock.get(state, Byte.parseByte(args[1]));
+						((EntityPlayer) sender).setHeldItem(EnumHand.MAIN_HAND, stack);
+						
 					}
 				}
-				return;
-			}
-			else if(args.length == 3 && args[0].equals("block") && args[1].matches("^[1-6].*") && args[2].equals("paste")){
-				IBlockState state = ((EntityPlayer)sender).worldObj.getBlockState(new BlockPos(((EntityPlayer)sender).posX, ((EntityPlayer)sender).posY, ((EntityPlayer)sender).posZ).down());
-				
-				if(state.isFullBlock() && !BlockStateJSON.blacklist.contains(state.getBlock())){
-					System.out.println(Byte.parseByte(args[1]));
-					BlockStateJSON.addBlockStateToJSON(state, Byte.parseByte(args[1]));
-				}
-			}
-			
-			else if(args.length == 4 && args[0].equals("block") && args[1].matches("^[1-6].*") && args[2].equals("paste") && args[3].equals("reload")){
-				IBlockState state = ((EntityPlayer)sender).worldObj.getBlockState(new BlockPos(((EntityPlayer)sender).posX, ((EntityPlayer)sender).posY, ((EntityPlayer)sender).posZ).down());
-				
-				if(state.isFullBlock() && !BlockStateJSON.blacklist.contains(state.getBlock())){
-					System.out.println(Byte.parseByte(args[1]));
-					BlockStateJSON.addBlockStateToJSON(state, Byte.parseByte(args[1]));
-				}
-				BlockStateJSON.reload();
 			}
 			
 			else{
-				((EntityPlayer)sender).addChatMessage(new TextComponentTranslation("Please provide type. Applicable: 'block' or 'block' 'n' 'paste' ['reload']"));
+				((EntityPlayer)sender).addChatMessage(new TextComponentTranslation("Correct usage: 'make_menger' '1-6'"));
 			}
 			
 		}

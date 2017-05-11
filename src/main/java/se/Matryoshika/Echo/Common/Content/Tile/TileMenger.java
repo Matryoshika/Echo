@@ -9,16 +9,11 @@ import net.minecraft.nbt.NBTUtil;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.common.property.IExtendedBlockState;
-import net.minecraftforge.fml.common.FMLLog;
-import se.Matryoshika.Echo.Common.Content.ContentRegistry;
 import se.Matryoshika.Echo.Common.Content.Blocks.CompressedBlock;
 import se.Matryoshika.Echo.Common.Utils.EchoConstants;
 
-public class TileMenger extends TileEntity implements ITickable{
+public class TileMenger extends TileEntity{
 
 	private byte tier;
 	private IBlockState state;
@@ -162,11 +157,4 @@ public class TileMenger extends TileEntity implements ITickable{
 		
 		
 	}
-
-
-	@Override
-	public void update() {
-		
-	}
-
 }

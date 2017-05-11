@@ -27,15 +27,10 @@ public class ItemBlockMenger extends ItemBlock {
 	@Override
 	public String getItemStackDisplayName(final ItemStack stack) {
 		final NBTTagCompound nbt = stack.getTagCompound();
-
-		if (nbt != null) {
-			final NBTTagCompound state = nbt.getCompoundTag(EchoConstants.NBT_BLOCKSTATE);
-			if (state != null) {
-				return "Menger Tier " + nbt.getByte(EchoConstants.NBT_TIER);
-			}
-		}
-
-		return super.getItemStackDisplayName(stack);
+		if(nbt != null)
+			return "Menger Tier " + nbt.getByte(EchoConstants.NBT_TIER);
+		
+		return "Menger: Unknown";
 	}
 	
 	@Override
@@ -45,6 +40,8 @@ public class ItemBlockMenger extends ItemBlock {
 		if (nbt != null){
 			IBlockState state = (NBTUtil.func_190008_d(nbt.getCompoundTag(EchoConstants.NBT_BLOCKSTATE)));
 			ItemStack orig = new ItemStack(Item.getItemFromBlock(state.getBlock()), 1, state.getBlock().getMetaFromState(state));
+			if(orig.getItem() == null)
+				return;
 			tooltip.add(NumberFormat.getIntegerInstance().format((int)Math.pow(20, nbt.getByte(EchoConstants.NBT_TIER))) + "x " + orig.getDisplayName());
 		}
 	}

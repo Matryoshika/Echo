@@ -1,20 +1,15 @@
 package se.Matryoshika.Echo.Common.Events;
 
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.item.Item;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.storage.loot.LootEntry;
-import net.minecraft.world.storage.loot.LootEntryTable;
-import net.minecraft.world.storage.loot.LootPool;
-import net.minecraft.world.storage.loot.LootTableList;
-import net.minecraft.world.storage.loot.RandomValueRange;
-import net.minecraft.world.storage.loot.conditions.LootCondition;
-import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import se.Matryoshika.Echo.Common.LootTables;
+import se.Matryoshika.Echo.Common.Content.ContentRegistry;
 import se.Matryoshika.Echo.Common.Content.Tile.TileTemporalDilation;
+import se.Matryoshika.Echo.Common.Utils.EchoConstants;
 
 public class EventHandler {
 	
@@ -37,8 +32,18 @@ public class EventHandler {
 			tile.setEntity((EntityLiving) event.getEntityLiving());
 			tile.hasUpdated = true;
 		}
+	}
+	
+	
+	@SubscribeEvent
+	public void onUse(RightClickBlock event) {
 		
-		
+		//Fix for JEI etc adding a Menger block without NBT
+
+		if (event.getItemStack() != null && event.getItemStack().getItem() == Item.getItemFromBlock(ContentRegistry.COMPRESSED_BLOCK)) {
+			if(!event.getItemStack().hasTagCompound() || !event.getItemStack().getTagCompound().hasKey(EchoConstants.NBT_BLOCKSTATE))
+				event.setCanceled(true);
+		}
 	}
 
 }

@@ -1,7 +1,5 @@
 package se.Matryoshika.Echo.Common.Content.Blocks;
 
-import java.util.List;
-
 import com.google.gson.Gson;
 
 import net.minecraft.block.Block;
@@ -9,17 +7,15 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityFlowerPot;
 import net.minecraft.util.EnumBlockRenderType;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
@@ -32,7 +28,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import se.Matryoshika.Echo.Echo;
 import se.Matryoshika.Echo.Common.Content.ContentRegistry;
 import se.Matryoshika.Echo.Common.Content.Tile.TileMenger;
-import se.Matryoshika.Echo.Common.Utils.BlockStateJSON;
 import se.Matryoshika.Echo.Common.Utils.EchoConstants;
 
 public class CompressedBlock extends Block {
@@ -44,31 +39,13 @@ public class CompressedBlock extends Block {
 		this.setHardness(3F);
 		
 	}
-	
-	@Override
-	public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list){
-		
-		for (IBlockState state : BlockStateJSON.getAllowedStates()) {
-
-			for (byte i = 1; i <= BlockStateJSON.getTiers(state); i++) {
-				ItemStack stack = new ItemStack(ContentRegistry.COMPRESSED_BLOCK);
-				NBTTagCompound nbt = new NBTTagCompound();
-				nbt.setTag(EchoConstants.NBT_BLOCKSTATE, NBTUtil.func_190009_a(new NBTTagCompound(), state));
-				nbt.setByte(EchoConstants.NBT_TIER, i);
-				stack.setTagCompound(nbt);
-				list.add(stack);
-			}
-
-		}
-    }
 
 	public boolean hasTileEntity(IBlockState state) {
 		return true;
 	}
 
 	@Override
-	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer,
-			ItemStack stack) {
+	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
 
 		((TileMenger) world.getTileEntity(pos)).update(stack.getTagCompound().getByte(EchoConstants.NBT_TIER),
 				NBTUtil.func_190008_d(stack.getTagCompound().getCompoundTag(EchoConstants.NBT_BLOCKSTATE)));
@@ -158,6 +135,34 @@ public class CompressedBlock extends Block {
 		world.setBlockState(pos.add(1, 1, 1), ContentRegistry.COMPRESSED_BLOCK.getDefaultState());
 		world.setTileEntity(pos.add(1, 1, 1), new TileMenger(copy, (byte) (tier+1)));
     }
+    
+    
+    
+	@SideOnly(Side.CLIENT)
+	public boolean addDestroyEffects(World world, BlockPos pos, net.minecraft.client.particle.ParticleManager manager) {
+
+		if (world.getBlockState(pos).getBlock() == this) {
+			
+			IExtendedBlockState menger = (IExtendedBlockState) getExtendedState(world.getBlockState(pos), world, pos);
+			IBlockState copy = menger.getValue(IBS);
+			
+			int i = 4;
+			net.minecraft.client.particle.ParticleDigging.Factory factory = new net.minecraft.client.particle.ParticleDigging.Factory();
+			for (int j = 0; j < i; ++j) {
+				for (int k = 0; k < i; ++k) {
+					for (int l = 0; l < i; ++l) {
+						double d0 = pos.getX() + (j + 0.5D) / i;
+						double d1 = pos.getY() + (k + 0.5D) / i;
+						double d2 = pos.getZ() + (l + 0.5D) / i;
+						manager.addEffect(factory.getEntityFX(-1, world, d0, d1, d2, d0 - pos.getX() - 0.5D, d1 - pos.getY() - 0.5D, d2 - pos.getZ() - 0.5D, Block.getStateId(copy)));
+					}
+				}
+			}
+			return true;
+		} else {
+			return false;
+		}
+	}
 	
 
 	@Override
@@ -202,5 +207,14 @@ public class CompressedBlock extends Block {
 		@Override
 		public String valueToString(Byte value) {return value.toString();}
 	};
+	
+	public static ItemStack get(IBlockState state, byte tier){
+		ItemStack stack = new ItemStack(ContentRegistry.COMPRESSED_BLOCK);
+		stack.setTagCompound(new NBTTagCompound());
+		stack.getTagCompound().setTag(EchoConstants.NBT_BLOCKSTATE,NBTUtil.func_190009_a(new NBTTagCompound(), state));
+		stack.getTagCompound().setByte(EchoConstants.NBT_TIER, tier);
+		
+		return stack;
+	}
 
 }
