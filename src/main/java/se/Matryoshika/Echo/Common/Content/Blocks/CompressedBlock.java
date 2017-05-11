@@ -1,12 +1,16 @@
 package se.Matryoshika.Echo.Common.Content.Blocks;
 
+import javax.annotation.Nullable;
+
 import com.google.gson.Gson;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -163,6 +167,17 @@ public class CompressedBlock extends Block {
 			return false;
 		}
 	}
+	
+	@Override
+	public SoundType getSoundType(IBlockState state, World world, BlockPos pos, @Nullable Entity entity){
+		if (world.getBlockState(pos).getBlock() == this) {
+			
+			IExtendedBlockState menger = (IExtendedBlockState) getExtendedState(world.getBlockState(pos), world, pos);
+			IBlockState copy = menger.getValue(IBS);
+			return copy.getBlock().getSoundType();
+		}
+        return getSoundType();
+    }
 	
 
 	@Override
