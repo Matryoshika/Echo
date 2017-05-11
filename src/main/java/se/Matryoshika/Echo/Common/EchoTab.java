@@ -1,8 +1,10 @@
 package se.Matryoshika.Echo.Common;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -58,7 +60,15 @@ public class EchoTab extends CreativeTabs{
         	nbt.setTag(EchoConstants.NBT_BLOCKSTATE, NBTUtil.func_190009_a(new NBTTagCompound(), state));
         	nbt.setByte(EchoConstants.NBT_TIER, (byte)1);
         	stack.setTagCompound(nbt);
-        	items.add(stack);
+        	
+        	List<String> list = stack.getTooltip(Minecraft.getMinecraft().thePlayer, Minecraft.getMinecraft().gameSettings.advancedItemTooltips);
+        	boolean hasText = false;
+        	for(String tip : list){
+        		if(tip.contains("20x"))
+        			hasText = true;
+        	}
+        	if(hasText)
+        		items.add(stack);
         	
         }
     }
