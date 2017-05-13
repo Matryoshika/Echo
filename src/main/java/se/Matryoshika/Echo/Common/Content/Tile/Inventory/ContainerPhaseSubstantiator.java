@@ -10,7 +10,7 @@ public class ContainerPhaseSubstantiator extends EchoContainer{
 	TilePhaseSubstantiator tile;
 
 	public ContainerPhaseSubstantiator(InventoryPlayer playInv, TilePhaseSubstantiator tile) {
-		super(26);
+		super(26, tile);
 		this.tile = tile;
 		
 		IItemHandler inventory = this.tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
@@ -37,7 +37,7 @@ public class ContainerPhaseSubstantiator extends EchoContainer{
 		addSlotToContainer(new SlotNonMenger(inventory, slotCount++, 92, 38));
 		
 		for(int x = 0; x < 6; x++)
-			addSlotToContainer(new SlotOnlyMenger(inventory, slotCount++, (x*18) + 62, 63));
+			addSlotToContainer(new SlotOnlyMenger(inventory, slotCount++, (x*18) + 62, 63, (byte) (x+1)));
 		
 		
 		bindPlayerInventory(playInv);

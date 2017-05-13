@@ -5,18 +5,21 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 
 public class EchoContainer extends Container{
 	
 	protected final int invenSize;
+	protected final TileEntity tile;
 	
-	public EchoContainer(int size) {
+	public EchoContainer(int size, TileEntity te) {
 		invenSize = size;
+		tile = te;
 	}
 	
 	@Override
-	public boolean canInteractWith(EntityPlayer playerIn) {
-		return true;
+	public boolean canInteractWith(EntityPlayer player) {
+		return player.worldObj.getTileEntity(tile.getPos()) != null && player.getDistanceSq(tile.getPos()) <= 35;
 	}
 
 	protected void bindPlayerInventory(InventoryPlayer playerInventory) {
