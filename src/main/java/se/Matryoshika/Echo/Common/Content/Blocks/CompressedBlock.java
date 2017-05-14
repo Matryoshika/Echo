@@ -10,14 +10,16 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.init.Enchantments;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTUtil;
+import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.math.BlockPos;
@@ -77,8 +79,7 @@ public class CompressedBlock extends Block {
 	}
 
 	@Override
-	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos,
-			EntityPlayer player) {
+	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
 		return getPickBlock(super.getPickBlock(state, target, world, pos, player),
 				(TileMenger) world.getTileEntity(pos), world, pos, state);
 	}
@@ -102,20 +103,40 @@ public class CompressedBlock extends Block {
 		java.util.List<ItemStack> ret = super.getDrops(world, pos, state, fortune);
 		TileMenger te = world.getTileEntity(pos) instanceof TileMenger ? (TileMenger) world.getTileEntity(pos) : null;
 		if (te != null && te.getOriginalState() != null) {
+			ItemStack switcher = null;
 			for (ItemStack stack : ret) {
 				if (stack != null && stack.getItem() == Item.getItemFromBlock(ContentRegistry.COMPRESSED_BLOCK)) {
 					if (!stack.hasTagCompound())
 						stack.setTagCompound(new NBTTagCompound());
 					IExtendedBlockState menger = (IExtendedBlockState) getExtendedState(state, world, pos);
-
 					IBlockState copy = menger.getValue(IBS);
-					stack.getTagCompound().setTag(EchoConstants.NBT_BLOCKSTATE,NBTUtil.func_190009_a(new NBTTagCompound(), copy));
-					stack.getTagCompound().setByte(EchoConstants.NBT_TIER, te.getTier());
+					
+					if(te.getTier() > 1){
+						stack.stackSize = 20;
+						stack.getTagCompound().setTag(EchoConstants.NBT_BLOCKSTATE,NBTUtil.func_190009_a(new NBTTagCompound(), copy));
+						stack.getTagCompound().setByte(EchoConstants.NBT_TIER, (byte) (te.getTier()-1));
+					}
+					else{
+						switcher = stack;
+					}
 				}
+			}
+			if(switcher != null){
+				if (!switcher.hasTagCompound())
+					switcher.setTagCompound(new NBTTagCompound());
+				IExtendedBlockState menger = (IExtendedBlockState) getExtendedState(state, world, pos);
+				IBlockState copy = menger.getValue(IBS);
+				ret.remove(switcher);
+				ret.add(new ItemStack(copy.getBlock(), 20, copy.getBlock().getMetaFromState(copy)));
 			}
 		}
 		return ret;
 	}
+	
+	@Override
+	public boolean canSilkHarvest(World world, BlockPos pos, IBlockState state, EntityPlayer player){
+        return true;
+    }
 	
     @Override
     public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest){
@@ -125,7 +146,29 @@ public class CompressedBlock extends Block {
     
     @Override
     public void harvestBlock(World world, EntityPlayer player, BlockPos pos, IBlockState state, TileEntity te, ItemStack tool){
-        super.harvestBlock(world, player, pos, state, te, tool);
+    	player.addStat(StatList.getBlockStats(this));
+        player.addExhaustion(0.025F);
+
+        if (this.canSilkHarvest(world, pos, state, player) && EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, tool) > 0){
+            java.util.List<ItemStack> items = new java.util.ArrayList<ItemStack>();
+            IExtendedBlockState extended = (IExtendedBlockState) getExtendedState(state, world, pos);
+            ItemStack stack = get(extended.getValue(IBS), extended.getValue(BIT));
+
+            if (stack != null)
+                items.add(stack);
+            
+            
+
+            net.minecraftforge.event.ForgeEventFactory.fireBlockHarvesting(items, world, pos, state, 0, 1.0f, true, player);
+            for (ItemStack item : items)
+                spawnAsEntity(world, pos, item);
+            
+        }
+        else{
+            harvesters.set(player);
+            this.dropBlockAsItem(world, pos, state, 0);
+            harvesters.set(null);
+        }
         world.setBlockToAir(pos);
     }
 
@@ -179,7 +222,19 @@ public class CompressedBlock extends Block {
         return getSoundType();
     }
 	
-
+	@Override
+    public float getBlockHardness(IBlockState blockState, World world, BlockPos pos){
+		
+		if (world.getBlockState(pos).getBlock() == this) {
+			
+			IExtendedBlockState menger = (IExtendedBlockState) getExtendedState(world.getBlockState(pos), world, pos);
+			IBlockState copy = menger.getValue(IBS);
+			return copy.getBlock().getBlockHardness(copy, world, pos);
+		}
+		
+        return this.blockHardness;
+    }
+	
 	@Override
 	public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
 		if (state instanceof IExtendedBlockState && world.getTileEntity(pos) instanceof TileMenger) {
