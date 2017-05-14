@@ -9,6 +9,7 @@ import net.minecraft.nbt.NBTUtil;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.world.World;
@@ -22,8 +23,8 @@ import se.Matryoshika.Echo.Common.Utils.EchoConstants;
 
 public class TilePhaseSubstantiator extends TileEntity implements ITickable{
 	
-	protected ItemStackHandler inputSlots;
-	protected ItemStackHandler outputSlots;
+	public ItemStackHandler inputSlots;
+	public ItemStackHandler outputSlots;
 
 	public TilePhaseSubstantiator(){
 		inputSlots = new ItemStackHandler(20);
@@ -60,6 +61,12 @@ public class TilePhaseSubstantiator extends TileEntity implements ITickable{
 				return;
 			
 			if(!ItemStack.areItemsEqual(inputSlots.getStackInSlot(i), inputSlots.getStackInSlot(i+1)))
+				return;
+			
+			if(Block.getBlockFromItem(inputSlots.getStackInSlot(i).getItem()) == null || Block.getBlockFromItem(inputSlots.getStackInSlot(i).getItem()).getBlockLayer() != BlockRenderLayer.SOLID)
+				return;
+			
+			if(!Block.getBlockFromItem(inputSlots.getStackInSlot(i).getItem()).isFullBlock(Block.getBlockFromItem(inputSlots.getStackInSlot(i).getItem()).getStateFromMeta(inputSlots.getStackInSlot(i).getMetadata())))
 				return;
 		}
 		
